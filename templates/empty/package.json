@@ -1,0 +1,25 @@
+{
+  "name": "{kebab name}}",
+  "description": "{{description}}",
+  "version": "1.0.0",
+  "author": "{{contact}}",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack serve --open --config webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeatmanlab/{{kebab name}}.git"
+  },
+  "license": "STANFORD ACADEMIC SOFTWARE LICENSE FOR ROAR™",
+  "bugs": {
+    "url": "https://github.com/yeatmanlab/{{kebab name}}/issues"
+  },
+  "homepage": "https://github.com/yeatmanlab/{{kebab name}}",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
