@@ -160,6 +160,15 @@ const hotDogTrials = {
         <p>If yes, press the right arrow key.</p>
         <p>If no, press the left arrow key.</p>
       `,
+      data: {
+        // Here is where we specify that this trial is a test response trial
+        task: "test_response",
+        // Here we can also specify additional information that we would like stored
+        // in this trial in ROAR's Firestore database. For example,
+        start_time: config.startTime.toLocaleString("PST"),
+        start_time_unix: config.startTime.getTime(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      }
     },
   ],
   timeline_variables: allTargets,

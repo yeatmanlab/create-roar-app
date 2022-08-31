@@ -9,5 +9,8 @@ export const roarConfig = {
     appId: "1:292331000426:web:91a04220991e3405737013",
     measurementId: "G-0TBTMDS993",
   },
-  rootDoc: ["prod", "roar-prod"],
+  // TODO: When you are ready to "release your app into the wild," and collect
+  // data, uncomment the next line and comment the one after it.
+  // rootDoc: ["prod", "roar-prod"],
+  rootDoc: ["dev", "{{kebab name}}"],
 };
