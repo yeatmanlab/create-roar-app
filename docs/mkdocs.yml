@@ -1,0 +1,55 @@
+site_name: ROAR Developer Guide
+site_url: https://yeatmanlab.github.io/create-roar-app
+site_author: Adam Richie-Halford
+site_description: A guide for developing ROAR apps
+
+copyright: Copyright &copy; 2022 <a href="https://richiehalford.org">Adam Richie-Halford</a>, Maintained by the <a href="https://www.brainandeducation.com/">Brain Development and Education Lab</a>.
+
+repo_url: https://github.com/yeatmanlab/create-roar-app/
+edit_uri: blob/master/docs/
+
+theme:
+  name: mkdocs
+  locale: en
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - django
+
+nav:
+  - About: index.md
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Developer Guide:
+    - Overview: developer-guide/index.md
+    - Prerequisites: developer-guide/prerequisites.md
+    - Installation: developer-guide/installation.md
+    - Configuration: developer-guide/configuration.md
+    - Writing Your Experiment: developer-guide/writing-your-experiment.md
+    - Styling: developer-guide/styling.md
+    - Retrieving Data: developer-guide/retrieving-data.md
+    - Deploying Your Experiment: developer-guide/deploying-your-experiment.md
+  - About:
+    - Contributing: about/contributing.md
+    - License: about/license.md
+
+extra_css:
+  - css/extra.css
+
+markdown_extensions:
+    - toc:
+        permalink: True
+    - attr_list
+    - def_list
+    - pymdownx.highlight:
+        anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
+    - footnotes
+
+plugins:
+  - search
+  - autorefs
