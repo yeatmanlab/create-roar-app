@@ -1,5 +1,11 @@
-// import { QuestCreate } from "jsQUEST";
+// jsPsych imports
 import { initJsPsych } from "jspsych";
+import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
+import jsPsychSurveyText from '@jspsych/plugin-survey-text';
+
+// Firebase imports
+import { RoarFirekit } from "@bdelab/roar-firekit";
+import { roarConfig } from "./firebaseConfig";
 
 /* set user mode */
 const queryString = new URL(window.location).search;
@@ -75,6 +81,7 @@ export const config = {
   userMetadata: {},
   startTime: new Date(),
   urlParams: urlParams,
+  firekit: null,
 };
 
 export const jsPsych = initJsPsych({
@@ -100,3 +107,127 @@ export const readCSV = (url) =>
       },
     });
   });
+
+// Create a timeline that we will add to in index.js
+export const timeline = [];
+
+// If the participant's ID was supplied through the query string, then start the
+// run using their info
+if (config.pid !== null) {
+  const userInfo = {
+    id: config.pid,
+    studyId: config.sessionId || null,
+    classId: config.classId || null,
+    schoolId: config.schoolId || null,
+    userMetadata: config.userMetadata,
+  };
+
+  config.firekit = new RoarFirekit({
+    config: roarConfig,
+    userInfo: userInfo,
+    taskInfo,
+  });
+
+  await config.firekit.startRun();
+}
+
+// If the participant's ID was **not** supplied through the query string, then
+// ask the user to fill out a form with their ID, class and school.
+const getPid = {
+  type: jsPsychSurveyText,
+  questions: [
+    {
+      prompt: 'Participant ID:',
+      name: 'pid',
+      placeholder: '0000',
+      required: true,
+    },
+    {
+      prompt: 'Class ID:',
+      name: 'ClassId',
+      placeholder: '0000',
+      required: true,
+    },
+    {
+      prompt: 'School ID',
+      name: 'SchoolId',
+      placeholder: '0000',
+      required: true,
+    },
+  ],
+  on_finish: (data) => {
+    config.pid = data.response.pid;
+    config.classId = data.response.ClassId;
+    config.schoolId = data.response.SchoolId;
+  },
+};
+
+const ifGetPid = {
+  timeline: [getPid],
+  conditional_function: function () {
+    return config.pid === null;
+  },
+  on_timeline_finish: async () => {
+    const userInfo = {
+      id: [config.schoolId, config.classId, config.pid].join("-"),
+      studyId: config.sessionId,
+      classId: config.classId || null,
+      schoolId: config.schoolId || null,
+      userMetadata: config.userMetadata,
+    };
+
+    config.firekit = new RoarFirekit({
+      config: roarConfig,
+      userInfo: userInfo,
+      taskInfo,
+    });
+
+    await config.firekit.startRun();
+  },
+};
+
+timeline.push(ifGetPid);
+
+// Enter full screen mode
+const enter_fullscreen = {
+  type: jsPsychFullScreen,
+  fullscreen_mode: true,
+  message: `<div><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+};
+
+timeline.push(enter_fullscreen);
+
+// Extend jsPsych's on_finish and on_data_update lifecycle functions to mark the
+// run as completed and write data to Firestore, respectively.
+const extend = (fn, code) =>
+  function () {
+    // eslint-disable-next-line prefer-rest-params
+    fn.apply(fn, arguments);
+    // eslint-disable-next-line prefer-rest-params
+    code.apply(fn, arguments);
+  };
+
+jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
+  config.firekit.finishRun();
+});
+
+jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
+  if (["test_response", "practice_response"].includes(data.task)) {
+    config.firekit?.writeTrial(data);
+  }
+});
+
+// Add a special error handler that writes javascript errors to a special trial
+// type in the Firestore database
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+  config.firekit?.writeTrial({
+    task: 'error',
+    lastTrial: jsPsych.data.getLastTrialData().trials[0],
+    message: String(msg),
+    source: url || null,
+    lineNo: String(lineNo || null),
+    colNo: String(columnNo || null),
+    error: JSON.stringify(error || null),
+  });
+  return false;
+};
