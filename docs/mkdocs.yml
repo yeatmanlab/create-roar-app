@@ -1,4 +1,4 @@
-site_name: ROAR Developer Guide
+site_name: ROAR Developer's Guide
 site_url: https://yeatmanlab.github.io/create-roar-app
 site_author: Adam Richie-Halford
 site_description: A guide for developing ROAR apps
@@ -6,15 +6,28 @@ site_description: A guide for developing ROAR apps
 copyright: Copyright &copy; 2022 <a href="https://richiehalford.org">Adam Richie-Halford</a>, Maintained by the <a href="https://www.brainandeducation.com/">Brain Development and Education Lab</a>.
 
 repo_url: https://github.com/yeatmanlab/create-roar-app/
-edit_uri: blob/master/docs/
+edit_uri: blob/main/docs/docs/
 
 theme:
-  name: mkdocs
+  name: material
   locale: en
   highlightjs: true
   hljs_languages:
     - yaml
     - django
+  features:
+    - navigation.top
+    - navigation.tracking
+    - navigation.expand
+    - navigation.indexes
+    - content.tabs.link
+  logo: assets/roar-icon.png
+  palette:
+    scheme: stanford
+  icon:
+    admonition:
+      abstract: octicons/arrow-right-24
+    repo: fontawesome/brands/github
 
 nav:
   - About: index.md
@@ -22,12 +35,14 @@ nav:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
-  - Developer Guide:
-    - Overview: developer-guide/index.md
+  - Developer Guide: 
+    - developer-guide/index.md
     - Prerequisites: developer-guide/prerequisites.md
     - Installation: developer-guide/installation.md
+    - Folder Structure: developer-guide/folder-structure.md
     - Configuration: developer-guide/configuration.md
     - Writing Your Experiment: developer-guide/writing-your-experiment.md
+    - Installing Additional Dependencies: developer-guide/installing-dependencies.md
     - Styling: developer-guide/styling.md
     - Retrieving Data: developer-guide/retrieving-data.md
     - Deploying Your Experiment: developer-guide/deploying-your-experiment.md
@@ -41,14 +56,30 @@ extra_css:
 markdown_extensions:
     - toc:
         permalink: True
+    - abbr
+    - admonition
     - attr_list
     - def_list
+    - footnotes
+    - md_in_html
+    - pymdownx.critic
+    - pymdownx.caret
+    - pymdownx.keys
+    - pymdownx.mark
+    - pymdownx.tilde
+    - pymdownx.details
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
     - pymdownx.highlight:
         anchor_linenums: true
     - pymdownx.inlinehilite
     - pymdownx.snippets
     - pymdownx.superfences
-    - footnotes
+    - pymdownx.tabbed:
+        alternate_style: true
+    - pymdownx.tasklist:
+        custom_checkbox: true
 
 plugins:
   - search

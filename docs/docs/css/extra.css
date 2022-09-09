@@ -1,61 +1,9 @@
-div.col-md-9 h1:first-of-type {
-    text-align: center;
-    font-size: 60px;
-    font-weight: 300;
-}
-
-div.col-md-9>p:first-of-type {
+div.md-content>article>h1:first-of-type {
     text-align: center;
 }
 
-div.col-md-9 p.admonition-title:first-of-type {
-    text-align: left;
-}
-
-div.col-md-9 h1:first-of-type .headerlink {
-    display: none;
-}
-
-code.no-highlight {
-    color: black;
-}
-
-div.admonition.block>.admonition-title {
-    display: none;
-}
-
-/* Definition List styles */
-
-dd {
-    padding-left: 20px;
-}
-
-.card-body svg {
-    width: 100%;
-    padding: 0 50px;
-    height: auto;
-}
-
-/* Homepage */
-
-body.homepage div.jumbotron {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 0;
-}
-
-body.homepage div.jumbotron div.card {
-    margin-bottom: 2rem;
-}
-
-body.homepage>div.container>div.row>div.col-md-3 {
-    display: none;
-}
-
-body.homepage>div.container>div.row>div.col-md-9 {
-    margin-left: 0;
-    flex: 0 0 100%;
-    max-width: 100%;
+div.md-content>article>p:first-of-type {
+    text-align: center;
 }
 
 /* mkdocstrings */
@@ -95,4 +43,19 @@ h5.doc-heading {
     margin-top: 0px;
     margin-bottom: 0px;
     width: 50%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Stanford color scheme */
+
+[data-md-color-scheme="stanford"] {
+    --md-primary-fg-color: #53565A;
+    --md-primary-fg-color--light: #ECB7B7;
+    --md-primary-fg-color--dark: #90030C;
+    --md-accent-fg-color: #006CB8;
+    --md-accent-fg-color--light: #6FC3FF;
+    --md-accent-fg-color--dark: #00548f;
 }

@@ -1,6 +1,10 @@
 # Contributing to the ROAR development guide
 
-An introduction to contributing to the ROAR development guide.
+Help make the development experience even better
+
+---
+
+The ROAR development guide helps people develop their own web assessments using the ROAR framework. This page is about contributing directly to the development guide and the `create-roar-app` tempate.
 
 The ROAR project welcomes, and depends, on contributions from BDE Lab members and the broader web assessment community. Contributions can be made in a number of
 ways, a few examples are:
@@ -10,30 +14,36 @@ ways, a few examples are:
 - Bug reports and patch reviews
 - Development of new ROAR assessments
 
-## Imposter's syndrome disclaimer[^1]
+!!! tip "Imposter's syndrome disclaimer[^1]"
 
-**We want your help. No, really.**
+    **We want your help. No, really.**
 
-There may be a little voice inside your head that is telling you that
-you're not ready to be an open-source contributor; that your skills
-aren't nearly good enough to contribute. What could you possibly offer a
-project like this one?
+    There may be a little voice inside your head that is telling you that
+    you're not ready to be an open-source contributor; that your skills
+    aren't nearly good enough to contribute. What could you possibly offer a
+    project like this one?
 
-We assure you - the little voice in your head is wrong. If you can
-write code at all, you can contribute code to open-source. Contributing
-to open-source projects is a fantastic way to advance one's coding
-skills. Writing perfect code isn't the measure of a good developer (that
-would disqualify all of us!); it's trying to create something, making
-mistakes, and learning from those mistakes. That's how we all improve,
-and we are happy to help others learn.
+    We assure you - the little voice in your head is wrong. If you can
+    write code at all, you can contribute code to open-source. Contributing
+    to open-source projects is a fantastic way to advance one's coding
+    skills. Writing perfect code isn't the measure of a good developer (that
+    would disqualify all of us!); it's trying to create something, making
+    mistakes, and learning from those mistakes. That's how we all improve,
+    and we are happy to help others learn.
 
-Being an open-source contributor doesn't just mean writing code, either.
-You can help out by writing documentation, tests, or even giving
-feedback about the project (and yes - that includes giving feedback
-about the contribution process). Some of these contributions may be the
-most valuable to the project as a whole, because you're coming to the
-project with fresh eyes, so you can see the errors and assumptions that
-seasoned contributors have glossed over.
+    Being an open-source contributor doesn't just mean writing code, either.
+    You can help out by writing documentation, tests, or even giving
+    feedback about the project (and yes - that includes giving feedback
+    about the contribution process). Some of these contributions may be the
+    most valuable to the project as a whole, because you're coming to the
+    project with fresh eyes, so you can see the errors and assumptions that
+    seasoned contributors have glossed over.
+
+    [^1]: The imposter syndrome disclaimer was originally written by
+        [Adrienne Lowe](https://github.com/adriennefriend) for a
+        [PyCon talk](https://www.youtube.com/watch?v=6Uj746j9Heo), and was
+        adapted based on its use in the README file for the
+        [MetPy project](https://github.com/Unidata/MetPy).
 
 ## Practical guide to submitting your contribution
 
@@ -47,11 +57,11 @@ Here are some [instructions][link_signupinstructions].
 Already know what you're looking for in this guide? Jump to the following sections:
 
 - [Joining the conversation](#joining-the-conversation)
-- [Contributing through Github](#contributing-through-github)
-- [Understanding issues](#understanding-issues)
+- [Contributing through GitHub](#contributing-through-github)
+- [Understanding GitHub issues](#understanding-github-issues)
 - [Making a change](#making-a-change)
 - [Coding style](#roar-coding-style-guide)
-- [Documentation](#documentation)
+- [Documentation](#writing-documentation)
 
 ## Joining the conversation
 
@@ -72,16 +82,18 @@ If you're not yet familiar with git, there are lots of great resources to help y
 Some of our favorites include the [git Handbook][link_handbook] and
 the [Software Carpentry introduction to git][link_swc_intro].
 
+## Writing Markdown
+
 On GitHub, you'll use [Markdown][markdown] to chat in issues and pull requests. You'll also use Markdown to contribute to the documentation in this developer's guide.
-You can think of Markdown as a few little symbols around your text that will allow GitHub
-to render the text with a little bit of formatting.
+You can think of Markdown as a few little symbols around your text that will
+render the text with a little bit of formatting.
 For example, you could write words as bold (`**bold**`), or in italics (`*italics*`),
 or as a [link][rick_roll] (`[link](https://youtu.be/dQw4w9WgXcQ)`) to another webpage.
 
 GitHub has a really helpful page for getting started with
 [writing and formatting Markdown on GitHub][writing_formatting_github].
 
-## Understanding issues
+## Understanding GitHub issues
 
 Every project on GitHub uses [issues][link_issues] slightly differently.
 The following outlines how the *ROAR* developers think about these tools.
@@ -150,26 +162,20 @@ but those accepted fastest will follow a workflow similar to the following:
     add the ["upstream" create-roar-app repository as a remote][link_addremote]
     to your locally cloned repository.
 
-    ```Shell
-    git remote add upstream https://github.com/yeatmanlab/create-roar-app.git
-    ```
+        git remote add upstream https://github.com/yeatmanlab/create-roar-app.git
 
     Make sure to [keep your fork up to date][link_updateupstreamwiki] with the upstream repository. For example, to update your master branch on your local cloned repository:
 
-    ```bash
-    git fetch upstream
-    git checkout master
-    git merge upstream/master
-    ```
+        git fetch upstream
+        git checkout master
+        git merge upstream/master
 
 1. **Create a [new branch][link_branches] to develop and maintain the proposed code changes.**
 
     For example:
 
-    ```Shell
-    git fetch upstream  # Always start with an updated upstream
-    git checkout -b fix/bug-1222 upstream/master
-    ```
+        git fetch upstream  # Always start with an updated upstream
+        git checkout -b fix/bug-1222 upstream/master
 
     Please consider using appropriate branch names as those listed below, and mind that some of them
     are special (e.g., `doc/` and `docs/`):
@@ -183,8 +189,6 @@ but those accepted fastest will follow a workflow similar to the following:
 1. **Make the changes you've discussed, following the [ROAR coding style guide](#roar-coding-style-guide).**
 
     Try to keep the changes focused: it is generally easy to review changes that address one feature or bug at a time.
-    It can also be helpful to test your changes locally,
-    using a [ROAR development environment][link_devel].
     Once you are satisfied with your local changes, [add/commit/push them][link_add_commit_push]
     to the branch on your forked repository.
 
@@ -213,17 +217,13 @@ but those accepted fastest will follow a workflow similar to the following:
 
 ## ROAR coding style guide
 
-TODO: Fill this in with tslint and markdown lint information.
+!!! bug
 
-## Documentation
+    TODO: Fill this in with tslint and markdown lint information.
 
-TODO: Fill this in with information about mkdocs and writing markdown.
+## Writing documentation
 
-[^1]: The imposter syndrome disclaimer was originally written by
-    [Adrienne Lowe](https://github.com/adriennefriend) for a
-    [PyCon talk](https://www.youtube.com/watch?v=6Uj746j9Heo), and was
-    adapted based on its use in the README file for the
-    [MetPy project](https://github.com/Unidata/MetPy).
+Improving our documentation is often the most effective way to contribute to ROAR. This documentation guide is created using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), which creates a website from a collection of Markdown files. There is an edit button displayed at the top of each document on this website. You may click that button to propose edits to any page. You can also fork and clone the entire repository as outlined above.
 
 [link_github]: https://github.com/
 [link_create_roar_app]: https://github.com/yeatmanlab/create-roar-app
