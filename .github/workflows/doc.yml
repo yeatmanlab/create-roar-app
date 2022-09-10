@@ -1,4 +1,4 @@
-name: Build docs 
+name: Build docs
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Install mkdocs-material
-        run: pip install mkdocs-material 
+        run: pip install mkdocs-material mkdocs-autorefs
       - name: Make and deploy docs
         run: |
           cd docs
