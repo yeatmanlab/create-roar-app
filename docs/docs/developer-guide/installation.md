@@ -20,7 +20,7 @@ You may then choose one of the following methods:
     === "npx (recommended)"
 
         ```sh
-        npx create-roar-app my-roar-app
+        npx create-roar-app@latest my-roar-app
         ```
 
         _[npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) is a package runner tool that comes with npm 5.2+ and higher._
@@ -28,7 +28,7 @@ You may then choose one of the following methods:
     === "npm"
 
         ```sh
-        npm init roar-app my-roar-app
+        npm init roar-app@latest my-roar-app
         ```
 
         _`npm init <initializer>` is available in npm 6+_
@@ -36,7 +36,7 @@ You may then choose one of the following methods:
     === "yarn"
 
         ```sh
-        yarn create roar-app my-roar-app
+        yarn create roar-app@latest my-roar-app
         ```
 
         _[`yarn create <starter-kit-package>`](https://yarnpkg.com/lang/en/docs/cli/create/) is available in Yarn 0.25+_
@@ -44,7 +44,7 @@ You may then choose one of the following methods:
 Follow the on-screen prompts and answer questions about your application. Here's an example:
 
 <!-- markdownlint-disable MD033 -->
-<script id="asciicast-kF2aXDZfpHg18STKDQzmvnG8i" src="https://asciinema.org/a/kF2aXDZfpHg18STKDQzmvnG8i.js" async></script>
+<script id="asciicast-dthAK5DpLbYGElZLp2mhJeXa3" src="https://asciinema.org/a/dthAK5DpLbYGElZLp2mhJeXa3.js" async></script>
 
 This will create a directory called `my-roar-app` inside the current folder.<br>
 Inside that directory, it will generate the initial project structure and install some  dependencies. Once the installation is done, you can navigate to your project folder:
@@ -66,7 +66,7 @@ Inside the newly created project, you can run some built-in commands:
 ### `npm start` or `yarn start`
 
 Runs the app in development mode.<br>
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+Visit [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 The page will automatically reload if you make changes to the code.
 
