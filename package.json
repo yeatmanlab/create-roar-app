@@ -1,7 +1,7 @@
 {
   "name": "create-roar-app",
   "description": "Create a ROAR app",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Adam Richie-Halford <richiehalford@gmail.com>",
   "scripts": {
     "build": "tsup src/cli.ts --minify",
