@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD041 -->
-![ROAR Logo](docs/docs/assets/roar-logo.png)
+![ROAR Logo](https://github.com/yeatmanlab/create-roar-app/raw/main/docs/docs/assets/roar-logo.png)
 
 # Create Roar App
 
@@ -13,7 +13,7 @@ npx create-roar-app <name>
 
 And then follow the onscreen prompts. For further details, see the [ROAR Developer's Guide](https://yeatmanlab.github.io/create-roar-app/).
 
-![Create ROAR App screencast](docs/docs/assets/create-roar-app.gif)
+![Create ROAR App screencast](https://github.com/yeatmanlab/create-roar-app/raw/main/docs/docs/assets/create-roar-app.gif)
 
 ## Acknowledgments
 
