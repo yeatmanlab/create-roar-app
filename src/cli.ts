@@ -16,7 +16,7 @@ create('create-roar-app', {
   promptForLicense: false,
   promptForTemplate: true,
   defaultLicense: 'UNLICENSED',
-  defaultTemplate: 'empty',
+  defaultTemplate: 'hot-dog-2afc',
   extra: {
     variant: {
       type: 'input',

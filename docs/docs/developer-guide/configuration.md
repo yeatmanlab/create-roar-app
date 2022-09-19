@@ -76,6 +76,26 @@ Now that you've configured your application to communicate with the dashboard, y
 
 From now on, we won't show you screencasts or code snippets for committing your changes into your git repository. But this is something that you should do very frequently.
 
+## Describe your experiment's structure
+
+During the [installation phase](installation.md), you entered some details about your assessment.
+And because you used the `hot-dog-2afc` template, your app presents participants with images and asks them to classify those images as either hot dogs or "not hot dogs." For the rest of this guide, we will pretend
+that you want to add a block to the experiment wherein participants classify images as cats or dogs.
+Before we write the experiment, let's edit your app's metadata so that it is recorded properly in the Firestore database. This information lives in `src/config.js`.
+
+=== "screencast"
+
+    TODO: Insert screencast
+
+=== "code only"
+
+    We get it. You're not the screencast type. But we're editing a file in this example and it's difficult to show that using only shell commands.
+    
+    But just for reference, we're editing the `taskInfo` object in `src/config.js`.
+
+- [ ] Add screencast of editing the blocks metadata
+- [ ] Also change the description to add dogs/cats
+
 ## Communicate with the Firestore database
 
 ROAR apps store each trial's data in a [Firestore database](https://firebase.google.com/docs/firestore). In order to communicate with Firebase, your app needs to know certain metadata about your Firebase project. If you are developing an app for the [Brain Development and Education Lab (BDELab)](https://www.brainandeducation.com/), then you don't have to do anything because the correct metadata has already been filled in. If you're developing for another organization, you'll have to supply your [Firebase project configuration](https://firebase.google.com/docs/web/learn-more#config-object) in the `src/firebaseConfig.js` file.

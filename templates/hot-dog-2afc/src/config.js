@@ -1,20 +1,20 @@
 // jsPsych imports
-import { initJsPsych } from "jspsych";
-import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
+import { initJsPsych } from 'jspsych';
+import jsPsychFullScreen from '@jspsych/plugin-fullscreen';
 import jsPsychSurveyText from '@jspsych/plugin-survey-text';
 
 // Firebase imports
-import { RoarFirekit } from "@bdelab/roar-firekit";
-import { roarConfig } from "./firebaseConfig";
+import { RoarFirekit } from '@bdelab/roar-firekit';
+import { roarConfig } from './firebaseConfig';
 
 /* set user mode */
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const pid = urlParams.get("participant") || null;
-const pipeline = urlParams.get("pipeline") || null;
-const studyId = urlParams.get("studyId") || null;
-const classId = urlParams.get("classId") || null;
-const schoolId = urlParams.get("schoolId") || null;
+const pid = urlParams.get('participant') || null;
+const pipeline = urlParams.get('pipeline') || null;
+const studyId = urlParams.get('studyId') || null;
+const classId = urlParams.get('classId') || null;
+const schoolId = urlParams.get('schoolId') || null;
 
 // ROAR apps communicate with the participant dashboard by passing parameters
 // through the URL. The dashboard can be made to append a "pipeline" parameter
@@ -27,15 +27,15 @@ const schoolId = urlParams.get("schoolId") || null;
 // TODO: Customize the redirect URLs here by inserting the correct game token.
 const redirect = () => {
   // TODO: Replace the pipeline value here with one that you want
-  if (pipeline === "insert-pipeline-value-1-here") {
+  if (pipeline === 'insert-pipeline-value-1-here') {
     // TODO: Fix the redirect URL here by replacing the 'XXXX' in the URL below
-    window.location.href = "https://reading.stanford.edu/?g=XXXX&c=1";
-  // TODO: Replace the pipeline value here with one that you want
-  } else if (pipeline === "insert-pipeline-value-2-here") {
+    window.location.href = 'https://reading.stanford.edu/?g=XXXX&c=1';
+    // TODO: Replace the pipeline value here with one that you want
+  } else if (pipeline === 'insert-pipeline-value-2-here') {
     // TODO: Fix the redirect URL here by replacing the 'XXXX' in the URL below
-    window.location.href = "https://reading.stanford.edu/?g=XXXX&c=1";
-  // TODO: Replace the pipeline value here with one that you want
-  } else if (pipeline === "insert-pipeline-value-4-here") {
+    window.location.href = 'https://reading.stanford.edu/?g=XXXX&c=1';
+    // TODO: Replace the pipeline value here with one that you want
+  } else if (pipeline === 'insert-pipeline-value-4-here') {
     // Here, we refresh the page rather than redirecting back to the dashboard
     window.location.reload();
   }
@@ -47,22 +47,22 @@ function configTaskInfo() {
   // TODO: Edit taskInfo here. The information will be used to populate the task
   // metadata in the Firestore database.
   const taskInfo = {
-    taskId: "{{kebab name}}",
-    taskName: "{{capital name space=true}}",
-    variantName: "{{kebab variant}}",
-    taskDescription: "{{taskDescription}}",
-    variantDescription: "{{variantDescription}}",
+    taskId: '{{kebab name}}',
+    taskName: '{{capital name space=true}}',
+    variantName: '{{kebab variant}}',
+    taskDescription: '{{description}}',
+    variantDescription: '{{variantDescription}}',
     // TODO: Edit the blocks below to better reflect your task/variant
     blocks: [
       {
         blockNumber: 0,
-        trialMethod: "fixed", // could be "random", "adaptive", "fixed", etc.
-        corpus: "practice_block", // should be the name or URL of some corpus
+        trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
+        corpus: 'practice_block', // should be the name or URL of some corpus
       },
       {
         blockNumber: 1,
-        trialMethod: "fixed", // could be "random", "adaptive", "fixed", etc.
-        corpus: "exercise_block", // should be the name or URL of some corpus
+        trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
+        corpus: 'exercise_block', // should be the name or URL of some corpus
       },
     ],
   };
@@ -87,7 +87,7 @@ export const config = {
 export const jsPsych = initJsPsych({
   show_progress_bar: true,
   auto_update_progress_bar: false,
-  message_progress_bar: "Progress Complete",
+  message_progress_bar: 'Progress Complete',
   on_finish: () => {
     redirect();
   },
@@ -169,7 +169,7 @@ const ifGetPid = {
   },
   on_timeline_finish: async () => {
     const userInfo = {
-      id: [config.schoolId, config.classId, config.pid].join("-"),
+      id: [config.schoolId, config.classId, config.pid].join('-'),
       studyId: config.sessionId,
       classId: config.classId || null,
       schoolId: config.schoolId || null,
@@ -212,7 +212,7 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 });
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-  if (["test_response", "practice_response"].includes(data.task)) {
+  if (['test_response', 'practice_response'].includes(data.task)) {
     config.firekit?.writeTrial(data);
   }
 });
