@@ -44,7 +44,7 @@ You may then choose one of the following methods:
 Follow the on-screen prompts and answer questions about your application. Here's an example:
 
 <!-- markdownlint-disable MD033 -->
-<script id="asciicast-dthAK5DpLbYGElZLp2mhJeXa3" src="https://asciinema.org/a/dthAK5DpLbYGElZLp2mhJeXa3.js" async></script>
+<script id="asciicast-ww6nV9rc3xaPings0XGLlQO46" src="https://asciinema.org/a/ww6nV9rc3xaPings0XGLlQO46.js" async></script>
 
 This will create a directory called `my-roar-app` inside the current folder.<br>
 Inside that directory, it will generate the initial project structure and install some  dependencies. Once the installation is done, you can navigate to your project folder:

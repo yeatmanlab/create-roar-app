@@ -57,7 +57,30 @@ There are lines of JavaScript code in `config.js` that inspect the "pipeline" pa
 
     We get it. You're not the screencast type. But we're editing a file in this example and it's difficult to show that using only shell commands.
     
-    But just for reference, we're completing the `TODO` items in `src/config.js`.
+    But just for reference, we're editing the `redirect` function in `src/config.js` so that, starting from line 19, we have:
+
+    ```js
+    // ROAR apps communicate with the participant dashboard by passing parameters
+    // through the URL. The dashboard can be made to append a "pipeline" parameter
+    // e.g., https://my-roar-app.web.app?pipeline=rc for the REDCap pipeline.
+    // Similarly, at the end of the assessment the ROAR app communicates with the
+    // dashboard using URL parameters for a game token, "g", and a completion
+    // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1.  Here we inspect
+    // the "pipeline" parameter that was passed through the URL query string and
+    // construct the appropriate redirect URL.
+    const redirect = () => {
+    if (pipeline === 'rc') {
+        window.location.href = 'https://reading.stanford.edu/?g=1234&c=1';
+    } else if (pipeline === 'school') {
+        window.location.href = 'https://reading.stanford.edu/?g=5678&c=1';
+    } else if (pipeline === 'multitudes') {
+        // Here, we refresh the page rather than redirecting back to the dashboard
+        window.location.reload();
+    }
+    // You can add additional pipeline-dependent redirect URLs here using
+    // additional `else if` clauses.
+    };
+    ```
 
 ## Commit your changes
 
@@ -71,7 +94,7 @@ Now that you've configured your application to communicate with the dashboard, y
 
     ```sh
     git add -u
-    git commit -m "Configure dashboard redirect based on pipiline URL parameter."
+    git commit -m "Configure dashboard redirect based on pipeline URL parameter."
     ```
 
 From now on, we won't show you screencasts or code snippets for committing your changes into your git repository. But this is something that you should do very frequently.
@@ -85,16 +108,35 @@ Before we write the experiment, let's edit your app's metadata so that it is rec
 
 === "screencast"
 
-    TODO: Insert screencast
+    <script id="asciicast-PpOAKLg6uxOjwES44YKoIdav9" src="https://asciinema.org/a/PpOAKLg6uxOjwES44YKoIdav9.js" async></script>
 
 === "code only"
 
     We get it. You're not the screencast type. But we're editing a file in this example and it's difficult to show that using only shell commands.
     
-    But just for reference, we're editing the `taskInfo` object in `src/config.js`.
+    But just for reference, we're editing the `taskInfo` object in `src/config.js` to read:
 
-- [ ] Add screencast of editing the blocks metadata
-- [ ] Also change the description to add dogs/cats
+    ```js
+    const taskInfo = {
+        taskId: 'my-roar-app',
+        taskName: 'My Roar App',
+        variantName: 'default',
+        taskDescription: 'A two-block, two-alternative forced choice experiment differentiating between hot dogs vs. not-hot dogs and then dogs vs. cats.',
+        variantDescription: 'default',
+        blocks: [
+        {
+            blockNumber: 0,
+            trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
+            corpus: 'hot-dog-vs-not-hot-dog', // should be the name or URL of some corpus
+        },
+        {
+            blockNumber: 1,
+            trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
+            corpus: 'dog-vs-cat', // should be the name or URL of some corpus
+        },
+        ],
+    };
+    ```
 
 ## Communicate with the Firestore database
 
