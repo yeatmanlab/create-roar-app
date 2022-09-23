@@ -9,11 +9,7 @@ import 'regenerator-runtime/runtime';
 import './css/roar.css';
 
 // Local modules
-import {
-  initConfig,
-  initRoarJsPsych,
-  initRoarTimeline,
-} from './config';
+import { initConfig, initRoarJsPsych, initRoarTimeline } from './config';
 
 import { allTargets, preloadImages } from './loadAssets';
 

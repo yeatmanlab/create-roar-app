@@ -51,13 +51,11 @@ There are lines of JavaScript code in `config.js` that inspect the "pipeline" pa
 
 === "screencast"
 
-    <script id="asciicast-dalJ0aTmp2SgM8DneAgR9m8IC" src="https://asciinema.org/a/dalJ0aTmp2SgM8DneAgR9m8IC.js" async></script>
+    <script id="asciicast-y3fCmQudKTZ1GZi1arov494GX" src="https://asciinema.org/a/y3fCmQudKTZ1GZi1arov494GX.js" async></script>
 
 === "code only"
 
-    We get it. You're not the screencast type. But we're editing a file in this example and it's difficult to show that using only shell commands.
-    
-    But just for reference, we're editing the `redirect` function in `src/config.js` so that, starting from line 19, we have:
+    Edit the `redirect` function in `src/config.js` so that it reads:
 
     ```js
     // ROAR apps communicate with the participant dashboard by passing parameters
@@ -69,35 +67,25 @@ There are lines of JavaScript code in `config.js` that inspect the "pipeline" pa
     // the "pipeline" parameter that was passed through the URL query string and
     // construct the appropriate redirect URL.
     const redirect = () => {
-    if (pipeline === 'rc') {
-        window.location.href = 'https://reading.stanford.edu/?g=1234&c=1';
-    } else if (pipeline === 'school') {
-        window.location.href = 'https://reading.stanford.edu/?g=5678&c=1';
-    } else if (pipeline === 'multitudes') {
-        // Here, we refresh the page rather than redirecting back to the dashboard
-        window.location.reload();
-    }
-    // You can add additional pipeline-dependent redirect URLs here using
-    // additional `else if` clauses.
+        if (pipeline === 'rc') {
+            window.location.href = 'https://reading.stanford.edu/?g=1234&c=1';
+        } else if (pipeline === 'school') {
+            window.location.href = 'https://reading.stanford.edu/?g=5678&c=1';
+        } else if (pipeline === 'multitudes') {
+            // Here, we refresh the page rather than redirecting back to the dashboard
+            window.location.reload();
+        }
+        // You can add additional pipeline-dependent redirect URLs here using
+        // additional `else if` clauses.
     };
     ```
 
-## Commit your changes
-
-Now that you've configured your application to communicate with the dashboard, you should commit your changes.
-
-=== "screencast"
-
-    <script id="asciicast-7GToSo2Nuw96yvNJFeGtJJAtf" src="https://asciinema.org/a/7GToSo2Nuw96yvNJFeGtJJAtf.js" async></script>
-
-=== "code only"
+    Then we're committing our changes using git:
 
     ```sh
     git add -u
     git commit -m "Configure dashboard redirect based on pipeline URL parameter."
     ```
-
-From now on, we won't show you screencasts or code snippets for committing your changes into your git repository. But this is something that you should do very frequently.
 
 ## Describe your experiment's structure
 
@@ -108,7 +96,7 @@ Before we write the experiment, let's edit your app's metadata so that it is rec
 
 === "screencast"
 
-    <script id="asciicast-PpOAKLg6uxOjwES44YKoIdav9" src="https://asciinema.org/a/PpOAKLg6uxOjwES44YKoIdav9.js" async></script>
+    <script id="asciicast-00AlqLucI97IheypsJlW7WOXC" src="https://asciinema.org/a/00AlqLucI97IheypsJlW7WOXC.js" async></script>
 
 === "code only"
 
@@ -126,16 +114,22 @@ Before we write the experiment, let's edit your app's metadata so that it is rec
         blocks: [
         {
             blockNumber: 0,
-            trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
+            trialMethod: 'random', // could be "random", "adaptive", "fixed", etc.
             corpus: 'hot-dog-vs-not-hot-dog', // should be the name or URL of some corpus
         },
         {
             blockNumber: 1,
-            trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
+            trialMethod: 'random', // could be "random", "adaptive", "fixed", etc.
             corpus: 'dog-vs-cat', // should be the name or URL of some corpus
         },
         ],
     };
+    ```
+
+    And then committing your changes:
+    ```sh
+    git add -u
+    git commit -m "Edit experiment metadata in src/config.js"
     ```
 
 ## Communicate with the Firestore database

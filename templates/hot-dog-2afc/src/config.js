@@ -80,7 +80,7 @@ export const initConfig = async () => {
   return config;
 };
 
-const initRoarJsPsych = (config) => {
+export const initRoarJsPsych = (config) => {
   // ROAR apps communicate with the participant dashboard by passing parameters
   // through the URL. The dashboard can be made to append a "pipeline" parameter
   // e.g., https://{{kebab name}}.web.app?pipeline=rc for the REDCap pipeline.
@@ -244,4 +244,3 @@ export const readCSV = (url) =>
       },
     });
   });
-
