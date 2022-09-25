@@ -17,7 +17,7 @@ First, use either npm or yarn to install the new plugin
 
 === "screencast"
 
-    <script id="asciicast-qsy1XVyK5gJjI5v5TrcDDgydj" src="https://asciinema.org/a/qsy1XVyK5gJjI5v5TrcDDgydj.js" async></script>
+    <script id="asciicast-cSa4Vo1mzqXW1iBKcfIJAHoZD" src="https://asciinema.org/a/cSa4Vo1mzqXW1iBKcfIJAHoZD.js" async></script>
 
 === "code only"
 
@@ -40,3 +40,74 @@ First, use either npm or yarn to install the new plugin
 ## Importing and using the new library
 
 Now we are ready to start using the new plugin.
+
+=== "screencast"
+
+    <script id="asciicast-yWci9Z9Axm360r6qOkt3oDNCv" src="https://asciinema.org/a/yWci9Z9Axm360r6qOkt3oDNCv.js" async></script>
+
+=== "code only"
+
+    First, remove the HTML image tag from the `allTargets` and `block2Targets` arrays in `src/loadAssets.js`:
+
+    ```js
+    export const allTargets = allFiles.map((url) => ({
+      target: url,
+      isHotDog: !url.includes('nothotdog'),
+    }));
+    ```
+
+    and
+
+    ```js
+    export const block2Targets = block2Files.map((url) => ({
+      target: url,
+      isDog: url.includes('dog'),
+    }));
+    ```
+
+    Next, change the plugin type in `src/index.js`:
+
+    ```js
+    import jsPsychImageKeyboardResponse from '@jspsych/plugin-image-keyboard-response';
+
+    // Skipping a lot of code here
+
+    const hotDogTrials = {
+      timeline: [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: '<div style="font-size:60px;">+</div>',
+          choices: 'NO_KEYS',
+          trial_duration: 500,
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: jsPsych.timelineVariable('target'),
+          choices: ['ArrowLeft', 'ArrowRight'],
+          prompt: `
+            <p>Is this a hot dog?</p>
+            <p>If yes, press the right arrow key.</p>
+            <p>If no, press the left arrow key.</p>
+          `,
+          stimulus_height: 250,
+          stimulus_width: 250,
+          data: {
+            // Here is where we specify that this trial is a test response trial
+            task: 'test_response',
+            // Here we can also specify additional information that we would like stored
+            // in this trial in ROAR's Firestore database. For example,
+            start_time: config.startTime.toLocaleString('PST'),
+            start_time_unix: config.startTime.getTime(),
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          },
+        },
+      ],
+      timeline_variables: allTargets,
+      sample: {
+        type: 'without-replacement',
+        size: 10,
+      },
+    };
+
+    // And likewise for the other stimulu.
+    ```
