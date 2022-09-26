@@ -81,6 +81,7 @@ Now we are ready to start using the new plugin.
           trial_duration: 500,
         },
         {
+          // Here we change the plugin type
           type: jsPsychImageKeyboardResponse,
           stimulus: jsPsych.timelineVariable('target'),
           choices: ['ArrowLeft', 'ArrowRight'],
@@ -89,6 +90,8 @@ Now we are ready to start using the new plugin.
             <p>If yes, press the right arrow key.</p>
             <p>If no, press the left arrow key.</p>
           `,
+          // And here we specify the stimulus height and width,
+          // which we previously did in the `allTargets` array.
           stimulus_height: 250,
           stimulus_width: 250,
           data: {
