@@ -6,12 +6,16 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack serve --open --config webpack.dev.js"
+    "build": "npx webpack --mode production",
+    "build:dev": "npm run build -- --env dbmode=development",
+    "build:prod": "npm run build -- --env dbmode=production",
+    "start": "npx webpack serve --open --mode development",
+    "start:dev": "npm run start -- --env dbmode=development",
+    "start:prod": "npm run start -- --env dbmode=production"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yeatmanlab/{{kebab name}}.git"
+    "url": "git+https://github.com/{{githubUsername}}/{{kebab name}}.git"
   },
   "license": "STANFORD ACADEMIC SOFTWARE LICENSE FOR ROAR™",
   "keywords": [
@@ -22,9 +26,9 @@
     "web-assessment"
   ],
   "bugs": {
-    "url": "https://github.com/yeatmanlab/{{kebab name}}/issues"
+    "url": "https://github.com/{{githubUsername}}/{{kebab name}}/issues"
   },
-  "homepage": "https://github.com/yeatmanlab/{{kebab name}}",
+  "homepage": "https://github.com/{{githubUsername}}/{{kebab name}}",
   "dependencies": {
   },
   "devDependencies": {

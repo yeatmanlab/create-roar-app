@@ -1,9 +1,11 @@
 const path = require('path');
+const webpack = require('webpack');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { merge } = require("webpack-merge");
 // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
-module.exports = {
+const commonConfig = {
   entry: {
     index: path.resolve(__dirname, 'src', 'index.js'),
   },
@@ -34,12 +36,6 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: '{{capital name space=true}}',
-    }),
-    new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
-  ],
   module: {
     rules: [
       {
@@ -94,4 +90,45 @@ module.exports = {
   experiments: {
     topLevelAwait: true,
   },
+};
+
+const productionConfig = {
+  mode: "production",
+};
+
+const developmentConfig = {
+  mode: "development",
+  devtool: "inline-source-map",
+  devServer: {
+    static: "./dist",
+  },
+};
+
+module.exports = (env, args) => {
+  const roarDbDoc = env.dbmode === "production" ? "production" : "development";
+
+  let merged;
+  switch (args.mode) {
+    case 'development':
+      merged = merge(commonConfig, developmentConfig);
+      break;
+    case 'production':
+      merged = merge(commonConfig, productionConfig);
+      break;
+    default:
+      throw new Error('No matching configuration was found!');
+  }
+
+  return merge(
+    merged,
+    {
+      plugins: [
+        new HtmlWebpackPlugin({
+		  title: '{{capital name space=true}}',
+        }),
+        new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+        new webpack.DefinePlugin({ ROAR_DB_DOC: JSON.stringify(roarDbDoc) }),
+      ],
+    },
+  );
 };
