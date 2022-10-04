@@ -90,7 +90,7 @@ There are lines of JavaScript code in `config.js` that inspect the "pipeline" pa
 ## Describe your experiment's structure
 
 During the [installation phase](installation.md), you entered some details about your assessment.
-And because you used the `hot-dog-2afc` template, your app presents participants with images and asks them to classify those images as either hot dogs or "not hot dogs." For the rest of this guide, we will pretend
+Your app presents participants with images and asks them to classify those images as either hot dogs or "not hot dogs." For the rest of this guide, we will pretend
 that you want to add a block to the experiment wherein participants classify images as cats or dogs.
 Before we write the experiment, let's edit your app's metadata so that it is recorded properly in the Firestore database. This information lives in `src/config.js`.
 

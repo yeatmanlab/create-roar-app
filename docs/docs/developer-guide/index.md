@@ -17,8 +17,8 @@ You can jump directly to a page listed below, or use the next and previous butto
 - [Installing Additional Dependencies](installing-dependencies.md)
 - [Playing mobile-friendly audio stimuli](audio-stimuli.md)
 - [Styling](styling.md)
-- [Retrieving Data](retrieving-data.md)
 - [Deploying Your Experiment](deploying-your-experiment.md)
+- [Retrieving Data](retrieving-data.md)
 
 !!! info
 

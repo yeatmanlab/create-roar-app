@@ -18,6 +18,12 @@ create('create-roar-app', {
   defaultLicense: 'UNLICENSED',
   defaultTemplate: 'hot-dog-2afc',
   extra: {
+    githubUsername: {
+      type: 'input',
+      describe: 'Your GitHub username or organization name.',
+      default: 'yeatmanlab',
+      prompt: 'if-no-arg',
+    },
     variant: {
       type: 'input',
       describe: `The name of the task variant. For example, some tasks have \
