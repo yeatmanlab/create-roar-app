@@ -63,16 +63,16 @@ We will demonstrate two different ways to host images: we'll host the cat images
 
     Now edit the `src/loadAssets.js` file to load these new cat images. You can add individual files simply by importing them as variables and then referencing them in your code. For example
 
-    ```js
+    ```diff
     // This is the same jsPsych preload plugin from before
     import jsPsychPreload from '@jspsych/plugin-preload';
 
     // Import individual cat image files
-    import cat1 from './assets/cat/1.jpg';
-    import cat2 from './assets/cat/2.jpg';
-    import cat3 from './assets/cat/3.jpg';
-    import cat4 from './assets/cat/4.jpg';
-    import cat5 from './assets/cat/5.jpg';
+    +import cat1 from './assets/cat/1.jpg';
+    +import cat2 from './assets/cat/2.jpg';
+    +import cat3 from './assets/cat/3.jpg';
+    +import cat4 from './assets/cat/4.jpg';
+    +import cat5 from './assets/cat/5.jpg';
 
     // Reference these files in a new array
     const catImages = [cat1, cat2, cat3, cat4, cat5];
