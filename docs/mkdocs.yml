@@ -43,10 +43,12 @@ nav:
     - Configuration: developer-guide/configuration.md
     - Writing Your Experiment: developer-guide/writing-your-experiment.md
     - Installing Additional Dependencies: developer-guide/installing-dependencies.md
-    - Mobile Friendly Audio Stimuli: developer-guide/audio-stimuli.md
     - Styling: developer-guide/styling.md
     - Retrieving Data: developer-guide/retrieving-data.md
     - Deploying Your Experiment: developer-guide/deploying-your-experiment.md
+  - Common Issues:
+    - Advice For Asset Files: common-issues/asset-files.md
+    - Mobile Friendly Audio Stimuli: common-issues/audio-stimuli.md
   - About:
     - Contributing: about/contributing.md
     - License: about/license.md

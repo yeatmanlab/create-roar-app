@@ -112,5 +112,5 @@ Now we are ready to start using the new plugin.
       },
     };
 
-    // And likewise for the other stimulu.
+    // And likewise for the other stimuli.
     ```
