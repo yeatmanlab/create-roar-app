@@ -1,3 +1,8 @@
+import { log } from './logger';
+
+// eslint-disable-next-line no-undef
+const rootDoc = ROAR_DB_DOC === "production" ? ["prod", "roar-prod"] : ["dev", "test-roar-app"];
+
 /* eslint-disable import/prefer-default-export */
 export const roarConfig = {
   firebaseConfig: {
@@ -9,8 +14,11 @@ export const roarConfig = {
     appId: "1:292331000426:web:91a04220991e3405737013",
     measurementId: "G-0TBTMDS993",
   },
-  // TODO: When you are ready to "release your app into the wild," and collect
-  // data, uncomment the next line and comment the one after it.
-  // rootDoc: ["prod", "roar-prod"],
-  rootDoc: ["dev", "{{kebab name}}"],
+  rootDoc: rootDoc,
 };
+
+const logMessage = (
+  `This ROAR app will write data to the ${roarConfig.projectId} `
+  + `Firestore database under the document ${rootDoc.join(" > ")}.`
+);
+log.info(logMessage);

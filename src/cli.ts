@@ -51,6 +51,7 @@ create('create-roar-app', {
       'jspsych',
       'papaparse',
       'regenerator-runtime',
+      'roarr',
       'webpack',
       'webpack-cli',
       'webpack-dev-server',
