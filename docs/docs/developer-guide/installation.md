@@ -13,22 +13,6 @@ mkdir -p ~/roar-apps
 cd ~/roar-apps
 ```
 
-Install [tsup](https://www.npmjs.com/package/tsup):
-
-!!! example "Installation options"
-
-    === "npm"
-
-        ```sh
-        npm install tsup -D
-        ```
-
-    === "yarn"
-
-        ```sh
-        yarn add tsup --dev
-        ```
-
 You may then choose one of the following methods:
 
 !!! example "Installation options"
