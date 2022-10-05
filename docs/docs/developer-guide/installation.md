@@ -63,7 +63,19 @@ and make edits to your experiment's code. See the following pages for more detai
 
 Inside the newly created project, you can run some built-in commands:
 
-### `npm start` or `yarn start`
+!!! example "Start a server"
+
+    === "npm"
+
+        ```sh
+        npm start
+        ```
+
+    === "yarn"
+
+        ```sh
+        yarn start
+        ```
 
 Runs the app in development mode.<br>
 Visit [http://localhost:8080](http://localhost:8080) to view it in the browser.
@@ -75,7 +87,19 @@ for your web development. Use the [Chrome DevTools](https://developer.chrome.com
 
 To stop the development server in your console, press ++ctrl+c++.
 
-### `npm run build` or `yarn build`
+!!! example "Build options"
+
+    === "npm"
+
+        ```sh
+        npm run build
+        ```
+
+    === "yarn"
+
+        ```sh
+        yarn build
+        ```
 
 Builds the app for production to the `dist` folder.<br>
 This correctly bundles your ROAR app in production mode and optimizes the build for the best performance.
