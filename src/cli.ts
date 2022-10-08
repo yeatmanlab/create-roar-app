@@ -5,14 +5,8 @@ import { resolve } from 'path';
 
 const templateRoot = resolve(__dirname, '..', 'templates');
 
-const defaultDescription = `e.g., This is a simple, two-alternative forced \
-choice, time-limited lexical decision task measuring the automaticity of word \
-recognition. ROAR-SWR is described in further detail at \
-https://doi.org/10.1038/s41598-021-85907-x`;
-
 create('create-roar-app', {
   templateRoot,
-  defaultDescription: defaultDescription.replace(/(\s\s+|[\t\n])/g, ' ').trim(),
   promptForLicense: false,
   promptForTemplate: true,
   defaultLicense: 'UNLICENSED',

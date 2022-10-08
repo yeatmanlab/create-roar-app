@@ -54,8 +54,8 @@ const hotDogTrials = {
         <p>If no, press the left arrow key.</p>
       `,
       data: {
-        // Here is where we specify that this trial is a test response trial
-        task: 'test_response',
+        // Here is where we specify that we should save the trial to Firestore
+        saveTrial: true,
         // Here we can also specify additional information that we would like stored
         // in this trial in ROAR's Firestore database. For example,
         start_time: config.startTime.toLocaleString('PST'),

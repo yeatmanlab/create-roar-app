@@ -136,7 +136,7 @@ export const initRoarJsPsych = (config) => {
   });
 
   jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-    if (['test_response', 'practice_response'].includes(data.task)) {
+    if (data.saveTrial) {
       config.firekit?.writeTrial(data);
     }
   });
