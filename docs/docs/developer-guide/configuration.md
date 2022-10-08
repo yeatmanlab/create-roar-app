@@ -4,24 +4,6 @@ Help your ROAR app communicate with the Firestore database and the dashboard.
 
 ---
 
-## Make your first commit
-
-Before we start configuring your app, let's commit the files that the `create-roar-app` initializer created in your app directory.
-
-=== "screencast"
-
-    <!-- markdownlint-disable MD033 -->
-    <script id="asciicast-9cOSw1RyEZNPMC1l6rfSouuVD" src="https://asciinema.org/a/9cOSw1RyEZNPMC1l6rfSouuVD.js" async></script>
-
-=== "code only"
-
-    ```sh
-    git add .
-    git commit -m "First commit. Add files created by the create-roar-app initializer"
-    ```
-
-Now that you've committed the initial files, we are ready to configure your experiment.
-
 ## Search for `TODO` items
 
 The app template that you used has some placeholder `TODO` items in different JavaScript files. You can find all of the placeholder by using `git grep` in the root level of your repository.

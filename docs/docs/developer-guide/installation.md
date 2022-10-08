@@ -63,7 +63,7 @@ and make edits to your experiment's code. See the following pages for more detai
 
 Inside the newly created project, you can run some built-in commands:
 
-!!! example "Start a server"
+!!! example "Start a development server"
 
     === "npm"
 
@@ -87,7 +87,7 @@ for your web development. Use the [Chrome DevTools](https://developer.chrome.com
 
 To stop the development server in your console, press ++ctrl+c++.
 
-!!! example "Build options"
+!!! example "Build your app for deployment"
 
     === "npm"
 
@@ -105,3 +105,21 @@ Builds the app for production to the `dist` folder.<br>
 This correctly bundles your ROAR app in production mode and optimizes the build for the best performance.
 
 Your app is then ready [to be deployed](deploying-your-experiment.md).
+
+## Make your first commit
+
+Before we start configuring your app, let's commit the files that the `create-roar-app` initializer created in your app directory.
+
+=== "screencast"
+
+    <!-- markdownlint-disable MD033 -->
+    <script id="asciicast-9cOSw1RyEZNPMC1l6rfSouuVD" src="https://asciinema.org/a/9cOSw1RyEZNPMC1l6rfSouuVD.js" async></script>
+
+=== "code only"
+
+    ```sh
+    git add .
+    git commit -m "First commit. Add files created by the create-roar-app initializer"
+    ```
+
+Now that you've committed the initial files, we are ready to configure your experiment.
