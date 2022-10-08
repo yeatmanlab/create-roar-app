@@ -18,6 +18,12 @@ create('create-roar-app', {
       default: 'yeatmanlab',
       prompt: 'if-no-arg',
     },
+    orgName: {
+      type: 'input',
+      describe: 'Your lab or organization name.',
+      default: 'yeatmanlab',
+      prompt: 'if-no-arg',
+    },
     variant: {
       type: 'input',
       describe: `The name of the task variant. For example, some tasks have \

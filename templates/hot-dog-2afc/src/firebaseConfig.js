@@ -1,7 +1,8 @@
 import { log } from './logger';
 
 // eslint-disable-next-line no-undef
-const rootDoc = ROAR_DB_DOC === 'production' ? ['prod', 'roar-prod'] : ['dev', '{{kebab name}}'];
+const prodDoc = '{{ orgName }}' === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', '{{ orgName }}'];
+const rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', '{{kebab name}}'];
 
 /* eslint-disable import/prefer-default-export */
 export const roarConfig = {
