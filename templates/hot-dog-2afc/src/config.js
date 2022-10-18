@@ -50,7 +50,7 @@ export const initConfig = async () => {
     studyId: studyId,
     classId: classId,
     schoolId: schoolId,
-    // TODO: You can add additional user metadata here
+    // TODO (optional): You can add additional user metadata here
     userMetadata: {},
     startTime: new Date(),
     urlParams: urlParams,
@@ -82,34 +82,28 @@ export const initConfig = async () => {
 
 export const initRoarJsPsych = (config) => {
   // ROAR apps communicate with the participant dashboard by passing parameters
-  // through the URL. The dashboard can be made to append a "pipeline" parameter
-  // e.g., https://{{kebab name}}.web.app?pipeline=rc for the REDCap pipeline.
+  // through the URL. The dashboard can be made to append a "gameToken"
+  // parameter, e.g., https://{{kebab name}}.web.app?gameToken=1234.
   // Similarly, at the end of the assessment the ROAR app communicates with the
-  // dashboard using URL parameters for a game token, "g", and a completion
-  // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1.  Here we inspect
-  // the "pipeline" parameter that was passed through the URL query string and
+  // dashboard to let it know that the participant has finished the assessment.
+  // The dashboard expects a game token, "g", and a completion
+  // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1. Here we inspect
+  // the "gameToken" parameter that was passed through the URL query string and
   // construct the appropriate redirect URL.
   const queryString = new URL(window.location).search;
   const urlParams = new URLSearchParams(queryString);
-  const pipeline = urlParams.get('pipeline') || null;
+  const gameToken = urlParams.get('gameToken') || null;
 
-  // TODO: Customize the redirect URLs here by inserting the correct game token.
   const redirect = () => {
-    // TODO: Replace the pipeline value here with one that you want
-    if (pipeline === 'insert-pipeline-value-1-here') {
-      // TODO: Fix the redirect URL here by replacing the 'XXXX' in the URL below
-      window.location.href = 'https://reading.stanford.edu/?g=XXXX&c=1';
-      // TODO: Replace the pipeline value here with one that you want
-    } else if (pipeline === 'insert-pipeline-value-2-here') {
-      // TODO: Fix the redirect URL here by replacing the 'XXXX' in the URL below
-      window.location.href = 'https://reading.stanford.edu/?g=XXXX&c=1';
-      // TODO: Replace the pipeline value here with one that you want
-    } else if (pipeline === 'insert-pipeline-value-4-here') {
-      // Here, we refresh the page rather than redirecting back to the dashboard
+    if (gameToken === null) {
+      // If no game token was passed, we refresh the page rather than
+      // redirecting back to the dashboard
       window.location.reload();
+    } else {
+      // Else, redirect back to the dashboard with the game token that
+      // was originally provided
+      window.location.href = `https://reading.stanford.edu/?g=${gameToken}&c=1`;
     }
-    // You can add additional pipeline-dependent redirect URLs here using
-    // additional `else if` clauses.
   };
 
   const jsPsych = initJsPsych({
@@ -135,9 +129,19 @@ export const initRoarJsPsych = (config) => {
     config.firekit.finishRun();
   });
 
+  const timingData = {
+    start_time: config.startTime.toISOString(),
+    start_time_unix: config.startTime.getTime(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  };
+
   jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-    if (data.saveTrial) {
-      config.firekit?.writeTrial(data);
+    if (data.save_trial) {
+      config.firekit?.writeTrial({
+        timingData,
+        userInfo: config.firekit?.userInfo,
+        ...data,
+      });
     }
   });
 
@@ -154,6 +158,7 @@ export const initRoarJsPsych = (config) => {
       lineNo: String(lineNo || null),
       colNo: String(columnNo || null),
       error: JSON.stringify(error || null),
+      timeStamp: new Date().toISOString(),
     });
   });
 

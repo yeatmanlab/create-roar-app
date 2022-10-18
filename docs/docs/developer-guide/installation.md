@@ -44,7 +44,7 @@ You may then choose one of the following methods:
 Follow the on-screen prompts and answer questions about your application. Here's an example:
 
 <!-- markdownlint-disable MD033 -->
-<script id="asciicast-ww6nV9rc3xaPings0XGLlQO46" src="https://asciinema.org/a/ww6nV9rc3xaPings0XGLlQO46.js" async></script>
+<script id="asciicast-SddnWuzBZQCvhzWHi23Dtekot" src="https://asciinema.org/a/SddnWuzBZQCvhzWHi23Dtekot.js" async></script>
 
 This will create a directory called `my-roar-app` inside the current folder.<br>
 Inside that directory, it will generate the initial project structure and install some  dependencies. Once the installation is done, you can navigate to your project folder:
@@ -113,7 +113,7 @@ Before we start configuring your app, let's commit the files that the `create-ro
 === "screencast"
 
     <!-- markdownlint-disable MD033 -->
-    <script id="asciicast-9cOSw1RyEZNPMC1l6rfSouuVD" src="https://asciinema.org/a/9cOSw1RyEZNPMC1l6rfSouuVD.js" async></script>
+    <script id="asciicast-AmoFJINzrKWBYgy8i5HlnYO1E" src="https://asciinema.org/a/AmoFJINzrKWBYgy8i5HlnYO1E.js" async></script>
 
 === "code only"
 
