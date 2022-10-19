@@ -68,6 +68,7 @@ create('create-roar-app', {
         'eslint',
         'eslint-config-airbnb-base',
         'eslint-plugin-import',
+        'folder-hash',
         'html-webpack-plugin',
         'style-loader',
         'webpack-merge',
