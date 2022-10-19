@@ -57,10 +57,7 @@ const hotDogTrials = {
         // Here is where we specify that we should save the trial to Firestore
         save_trial: true,
         // Here we can also specify additional information that we would like stored
-        // in this trial in ROAR's Firestore database. For example,
-        start_time: config.startTime.toISOString(),
-        start_time_unix: config.startTime.getTime(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        // in this trial in ROAR's Firestore database.
       },
     },
   ],

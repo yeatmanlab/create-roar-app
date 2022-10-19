@@ -1,7 +1,9 @@
+/* eslint-disable quote-props */
+const { hashElement } = require('folder-hash');
 const path = require('path');
 const webpack = require('webpack');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { merge } = require("webpack-merge");
+const { merge } = require('webpack-merge');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -93,19 +95,25 @@ const commonConfig = {
 };
 
 const productionConfig = {
-  mode: "production",
+  mode: 'production',
 };
 
 const developmentConfig = {
-  mode: "development",
-  devtool: "inline-source-map",
+  mode: 'development',
+  devtool: 'inline-source-map',
   devServer: {
-    static: "./dist",
+    static: './dist',
   },
 };
 
-module.exports = (env, args) => {
-  const roarDbDoc = env.dbmode === "production" ? "production" : "development";
+module.exports = async (env, args) => {
+  const hashOptions = {
+    folders: { exclude: ['.*', 'node_modules', 'test_coverage'] },
+    files: { include: ['*.js', '*.json'] },
+  };
+  const srcHash = await hashElement('./src', hashOptions);
+
+  const roarDbDoc = env.dbmode === 'production' ? 'production' : 'development';
 
   let merged;
   switch (args.mode) {
@@ -127,7 +135,10 @@ module.exports = (env, args) => {
 		  title: '{{capital name space=true}}',
         }),
         new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
-        new webpack.DefinePlugin({ ROAR_DB_DOC: JSON.stringify(roarDbDoc) }),
+        new webpack.DefinePlugin({
+          ROAR_DB_DOC: JSON.stringify(roarDbDoc),
+          SRC_HASH: JSON.stringify(srcHash),
+        }),
       ],
     },
   );

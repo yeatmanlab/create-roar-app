@@ -17,19 +17,8 @@ function configTaskInfo() {
     variantName: '{{kebab variant}}',
     taskDescription: '{{description}}',
     variantDescription: '{{variantDescription}}',
-    // TODO: Edit the blocks below to better reflect your task/variant
-    blocks: [
-      {
-        blockNumber: 0,
-        trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
-        corpus: 'practice_block', // should be the name or URL of some corpus
-      },
-      {
-        blockNumber: 1,
-        trialMethod: 'fixed', // could be "random", "adaptive", "fixed", etc.
-        corpus: 'exercise_block', // should be the name or URL of some corpus
-      },
-    ],
+    // eslint-disable-next-line no-undef
+    srcHash: SRC_HASH,
   };
 
   return taskInfo;
