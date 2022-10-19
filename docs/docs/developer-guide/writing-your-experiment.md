@@ -8,15 +8,15 @@ Finally, let's stimulate our participant!
 
 Your ROAR app is ready to go out of the box. Let's start the development server to see what the experiment looks like in the browser.
 
-=== "screencast"
-
-    <script id="asciicast-3BzroQXKrkJwROlvZPYSF3K8s" src="https://asciinema.org/a/3BzroQXKrkJwROlvZPYSF3K8s.js" async></script>
-
 === "code only"
 
     ```sh
     npm start
     ```
+
+=== "screencast"
+
+    <script id="asciicast-3BzroQXKrkJwROlvZPYSF3K8s" src="https://asciinema.org/a/3BzroQXKrkJwROlvZPYSF3K8s.js" async></script>
 
 This will automatically open a new browser tab with your experiment. It should look something like the [experiment hosted here](https://create-roar-app-example.web.app/){target=_blank}:
 
@@ -39,10 +39,6 @@ We will demonstrate two different ways to host images: we'll host the cat images
 
 #### Hosting images alongside your experiment
 
-=== "screencast"
-
-    <script id="asciicast-mcEQabC4s6YIvnr1fYz6XdILP" src="https://asciinema.org/a/mcEQabC4s6YIvnr1fYz6XdILP.js" async></script>
-
 === "code only"
 
     First download the [cat images zip file](../assets/block-2-images/cat.zip). Assuming that this file was downloaded to `~/Downloads`, do
@@ -63,19 +59,39 @@ We will demonstrate two different ways to host images: we'll host the cat images
 
     Now edit the `src/loadAssets.js` file to load these new cat images. You can add individual files simply by importing them as variables and then referencing them in your code. For example
 
-    ```diff
-    // This is the same jsPsych preload plugin from before
+    ``` js title="src/loadAssets.js" linenums="1" hl_lines="3-10 34-38"
     import jsPsychPreload from '@jspsych/plugin-preload';
 
-    // Import individual cat image files
-    +import cat1 from './assets/cat/1.jpg';
-    +import cat2 from './assets/cat/2.jpg';
-    +import cat3 from './assets/cat/3.jpg';
-    +import cat4 from './assets/cat/4.jpg';
-    +import cat5 from './assets/cat/5.jpg';
+    import cat1 from './assets/cat/1.jpg';
+    import cat2 from './assets/cat/2.jpg';
+    import cat3 from './assets/cat/3.jpg';
+    import cat4 from './assets/cat/4.jpg';
+    import cat5 from './assets/cat/5.jpg';
 
     // Reference these files in a new array
     const catImages = [cat1, cat2, cat3, cat4, cat5];
+
+    // Create arrays of hot dog / not hot dog images
+    const numFiles = 5;
+    const hotDogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
+      (idx) => `https://storage.googleapis.com/roar-hot-dog-images/hotdog/${idx}.jpg`,
+    );
+
+    const notHotDogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
+      (idx) => `https://storage.googleapis.com/roar-hot-dog-images/nothotdog/${idx}.jpg`,
+    );
+
+    const allFiles = hotDogFiles.concat(notHotDogFiles);
+    export const allTargets = allFiles.map((url) => ({
+      target: `<img src="${url}" width=250 height=250>`,
+      isHotDog: !url.includes('nothotdog'),
+    }));
+
+    /* preload images */
+    export const preloadImages = {
+      type: jsPsychPreload,
+      images: allFiles,
+    };
 
     // Preload the cat image
     export const preloadCatImages = {
@@ -91,6 +107,10 @@ We will demonstrate two different ways to host images: we'll host the cat images
     git add -u
     git commit -m "Add cat images for block 2"
     ```
+
+=== "screencast"
+
+    <script id="asciicast-mcEQabC4s6YIvnr1fYz6XdILP" src="https://asciinema.org/a/mcEQabC4s6YIvnr1fYz6XdILP.js" async></script>
 
 #### Hosting images using a cloud storage provider
 
@@ -109,39 +129,68 @@ Two popular cloud storage service providers are Google Cloud Storage (GCS) and A
 
 Then we can add references to the dog image URLs like so
 
-=== "screencast"
-
-    <script id="asciicast-CilcYmBcElKbDsCpNLZiK4i5T" src="https://asciinema.org/a/CilcYmBcElKbDsCpNLZiK4i5T.js" async></script>
-
 === "code only"
 
     Edit the `src/loadAssets.js` file to include the dog image URLs
 
-    ```js
-    const dogImages = Array.from(Array(numFiles), (_, i) => i + 1).map(
+    ``` js title="src/loadAssets.js" linenums="1" hl_lines="22-24 38-48"
+    import jsPsychPreload from '@jspsych/plugin-preload';
+
+    import cat1 from './assets/cat/1.jpg';
+    import cat2 from './assets/cat/2.jpg';
+    import cat3 from './assets/cat/3.jpg';
+    import cat4 from './assets/cat/4.jpg';
+    import cat5 from './assets/cat/5.jpg';
+
+    // Reference these files in a new array
+    const catImages = [cat1, cat2, cat3, cat4, cat5];
+
+    // Create arrays of hot dog / not hot dog images
+    const numFiles = 5;
+    const hotDogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
+      (idx) => `https://storage.googleapis.com/roar-hot-dog-images/hotdog/${idx}.jpg`,
+    );
+
+    const notHotDogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
+      (idx) => `https://storage.googleapis.com/roar-hot-dog-images/nothotdog/${idx}.jpg`,
+    );
+
+    const dogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
       (idx) => `https://storage.googleapis.com/roar-hot-dog-images/dog/${idx}.jpg`,
     );
 
-    const block2Files = catImages.concat(dogImages);
+    const allFiles = hotDogFiles.concat(notHotDogFiles);
+    export const allTargets = allFiles.map((url) => ({
+      target: `<img src="${url}" width=250 height=250>`,
+      isHotDog: !url.includes('nothotdog'),
+    }));
+
+    /* preload images */
+    export const preloadImages = {
+      type: jsPsychPreload,
+      images: allFiles,
+    };
+
+    const block2Files = catImages.concat(dogFiles);
     export const block2Targets = block2Files.map((url) => ({
-      target: `<img src="${url}" width=250>`,
+      target: `<img src="${url}" width=250 height=250>`,
       isDog: url.includes('dog'),
     }));
-    ```
 
-    We'll use the `block2Targets` array in the next section. Finally, edit the `preloadCatImages` object at the end of the file to preload all of the cat vs. dog images:
-
-    ```js
-    // Preload the block 2 images
+    // Preload the cat/dog images
     export const preloadBlock2Images = {
       type: jsPsychPreload,
       images: block2Files,
     };
     ```
 
+=== "screencast"
+
+    <script id="asciicast-CilcYmBcElKbDsCpNLZiK4i5T" src="https://asciinema.org/a/CilcYmBcElKbDsCpNLZiK4i5T.js" async></script>
+
 ??? info "Making sense of the above javascript"
 
-    If the above line of javascript for `dogImages` doesn't make sense to you, let's break it down into its components:
+    If the above line of javascript for `dogFiles` doesn't make sense to you, let's break it down into its components:
     
     ```js
     Array(numFiles)
@@ -174,29 +223,24 @@ Now that we have established references to our new cat vs. dog images, let's cre
 
 We will add the first stimulus in the `block2Targets` array.
 
-=== "screencast"
-
-    <script id="asciicast-Fae6hjgPoGTYK98ISwIyYZ5nQ" src="https://asciinema.org/a/Fae6hjgPoGTYK98ISwIyYZ5nQ.js" async></script>
-
 === "code only"
 
     Edit the `src/index.js` file to include a new instruction set and the new stimuli.
 
     At the top of the file, add the following imports
 
-    ```js
-    import { block2Targets, preloadBlock2Images } from './loadAssets';
+    ```js title="src/index.js" linenums="11" hl_lines="4"
+    // Local modules
+    import { initConfig, initRoarJsPsych, initRoarTimeline } from './config';
+
+    import { allTargets, preloadImages, block2Targets, preloadBlock2Images } from './loadAssets';
     ```
     
-    Then, after the line that reads
+    Then, a little bit later in the file, add
 
-    ```js
+    ```js title="src/index.js" linenums="71" hl_lines="3-45"
     timeline.push(hotDogTrials);
-    ```
 
-    place the following code
-
-    ```js
     const block2Instructions = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: `
@@ -212,7 +256,7 @@ We will add the first stimulus in the `block2Targets` array.
     timeline.push(preloadBlock2Images);
     timeline.push(block2Instructions);
 
-    const catVsDogTrials = {
+    const catDogTrials = {
       timeline: [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -222,7 +266,7 @@ We will add the first stimulus in the `block2Targets` array.
         },
         {
           type: jsPsychHtmlKeyboardResponse,
-          stimulus: block2Targets[0],
+          stimulus: block2Targets[0].target,
           choices: ['ArrowLeft', 'ArrowRight'],
           prompt: `
             <p>Is this a cat or a dog?</p>
@@ -230,35 +274,32 @@ We will add the first stimulus in the `block2Targets` array.
             <p>If dog, press the right arrow key.</p>
             `
           data: {
-            // Here is where we specify that this trial is a test response trial
-            task: 'test_response',
+            // Here is where we specify that we should save the trial to Firestore
+            save_trial: true,
             // Here we can also specify additional information that we would like stored
-            // in this trial in ROAR's Firestore database. For example,
-            start_time: config.startTime.toLocaleString('PST'),
-            start_time_unix: config.startTime.getTime(),
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }
+            // in this trial in ROAR's Firestore database.
+          },
         }
       ]
     };
 
-    timeline.push(catVsDogTrials);
+    timeline.push(catDogTrials);
     ```
+
+=== "screencast"
+
+    <script id="asciicast-Fae6hjgPoGTYK98ISwIyYZ5nQ" src="https://asciinema.org/a/Fae6hjgPoGTYK98ISwIyYZ5nQ.js" async></script>
 
 #### Adding a block of stimuli
 
 We just added one single stimulus. It would be really annoying to have to write all that code over and over just to add the next nine stimuli for this block. Luckily, jsPsych has [timeline variables](https://www.jspsych.org/7.0/overview/timeline/#timeline-variables){target=_blank} to make this easier. In fact, the hot dog vs. not hot dog block already uses this technology. Let's add the other dog vs. cat stimuli using timeline variables with random sampling.
 
-=== "screencast"
-
-    <script id="asciicast-Hk9TDXjdOLudCfL4TPzLlSb3X" src="https://asciinema.org/a/Hk9TDXjdOLudCfL4TPzLlSb3X.js" async></script>
-
 === "code only"
 
     Edit the `catVsDogTrials` in the `src/index.js` file so that it reads:
 
-    ```js
-    const catVsDogTrials = {
+    ```js title="src/index.js" linenums="88" hl_lines="10 29-33"
+    const catDogTrials = {
       timeline: [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -294,19 +335,19 @@ We just added one single stimulus. It would be really annoying to have to write 
     };
     ```
 
+=== "screencast"
+
+    <script id="asciicast-Hk9TDXjdOLudCfL4TPzLlSb3X" src="https://asciinema.org/a/Hk9TDXjdOLudCfL4TPzLlSb3X.js" async></script>
+
 ### Ending the experiment
 
 We've added the second block of stimuli. Right now, the experiment abruptly ends after the last stimulus. It's a good idea to let your participants know that they've finished the experiment. Let's add one last trial telling the participant that they are done.
-
-=== "screencast"
-
-    <script id="asciicast-npcPshy7MAWkNTQDOUEFHXHVe" src="https://asciinema.org/a/npcPshy7MAWkNTQDOUEFHXHVe.js" async></script>
 
 === "code only"
 
     Add one more trial and push it to the timeline before the `exit_fullscreen` trial.
 
-    ```js
+    ```js title="src/index.js" linenums="120" hl_lines="1-8"
     const endTrial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: '<p>Great job! Press any key to finish the assessment.</p>',
@@ -315,7 +356,19 @@ We've added the second block of stimuli. Right now, the experiment abruptly ends
     };
 
     timeline.push(endTrial);
+
+    const exit_fullscreen = {
+      type: jsPsychFullScreen,
+      fullscreen_mode: false,
+      delay_after: 0,
+    };
+
+    timeline.push(exit_fullscreen);
     ```
+
+=== "screencast"
+
+    <script id="asciicast-npcPshy7MAWkNTQDOUEFHXHVe" src="https://asciinema.org/a/npcPshy7MAWkNTQDOUEFHXHVe.js" async></script>
 
 !!! warning "How to properly end your assessment"
 

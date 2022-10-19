@@ -49,7 +49,7 @@ export const initConfig = async () => {
   if (config.pid !== null) {
     const userInfo = {
       id: config.pid,
-      studyId: config.sessionId || null,
+      studyId: config.studyId || null,
       classId: config.classId || null,
       schoolId: config.schoolId || null,
       userMetadata: config.userMetadata,
@@ -195,7 +195,7 @@ export const initRoarTimeline = (config) => {
     on_timeline_finish: async () => {
       const userInfo = {
         id: [config.schoolId, config.classId, config.pid].join('-'),
-        studyId: config.sessionId,
+        studyId: config.studyId || null,
         classId: config.classId || null,
         schoolId: config.schoolId || null,
         userMetadata: config.userMetadata,

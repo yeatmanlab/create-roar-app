@@ -5,6 +5,7 @@ const numFiles = 5;
 const hotDogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
   (idx) => `https://storage.googleapis.com/roar-hot-dog-images/hotdog/${idx}.jpg`,
 );
+
 const notHotDogFiles = Array.from(Array(numFiles), (_, i) => i + 1).map(
   (idx) => `https://storage.googleapis.com/roar-hot-dog-images/nothotdog/${idx}.jpg`,
 );
