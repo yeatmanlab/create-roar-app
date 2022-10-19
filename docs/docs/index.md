@@ -54,6 +54,5 @@ website](https://roar.stanford.edu/).
     S3, Firebase hosting, or [anywhere else](developer-guide/deploying-your-experiment/) else you choose.
 
 <div class="text-center" markdown>
-[Quick Start](getting-started.md){ .md-button }
 [Developer's Guide](developer-guide/){ .md-button }
 </div>

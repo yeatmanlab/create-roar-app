@@ -7,11 +7,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack --mode production",
-    "build:dev": "npm run build -- --env dbmode=development",
-    "build:prod": "npm run build -- --env dbmode=production",
+    "build:dev": "npm run build --silent -- --env dbmode=development",
+    "build:prod": "npm run build --silent -- --env dbmode=production",
     "start": "npx webpack serve --open --mode development",
-    "start:dev": "npm run start -- --env dbmode=development",
-    "start:prod": "npm run start -- --env dbmode=production"
+    "start:dev": "npm run start --silent -- --env dbmode=development",
+    "start:prod": "npm run start --silent -- --env dbmode=production"
   },
   "repository": {
     "type": "git",

@@ -63,6 +63,20 @@ and make edits to your experiment's code. See the following pages for more detai
 
 Inside the newly created project, you can run some built-in commands:
 
+!!! example "See a list of available commands"
+
+    === "npm"
+
+        ```sh
+        npm run
+        ```
+
+    === "yarn"
+
+        ```sh
+        yarn run
+        ```
+
 !!! example "Start a development server"
 
     === "npm"
@@ -77,15 +91,15 @@ Inside the newly created project, you can run some built-in commands:
         yarn start
         ```
 
-Runs the app in development mode.<br>
-Visit [http://localhost:8080](http://localhost:8080) to view it in the browser.
+    Runs the app in development mode.<br>
+    Visit [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
-The page will automatically reload if you make changes to the code.
+    The page will automatically reload if you make changes to the code.
 
-We recommend using the [Google Chrome](https://www.google.com/chrome/) browser
-for your web development. Use the [Chrome DevTools](https://developer.chrome.com/docs/devtools/open/) to [view your web application's DOM](https://developer.chrome.com/docs/devtools/dom/) or [debug your JavaScript](https://developer.chrome.com/docs/devtools/javascript/).
+    We recommend using the [Google Chrome](https://www.google.com/chrome/) browser
+    for your web development. Use the [Chrome DevTools](https://developer.chrome.com/docs/devtools/open/) to [view your web application's DOM](https://developer.chrome.com/docs/devtools/dom/) or [debug your JavaScript](https://developer.chrome.com/docs/devtools/javascript/).
 
-To stop the development server in your console, press ++ctrl+c++.
+    To stop the development server in your console, press ++ctrl+c++.
 
 !!! example "Build your app for deployment"
 
@@ -101,10 +115,12 @@ To stop the development server in your console, press ++ctrl+c++.
         yarn build
         ```
 
-Builds the app for production to the `dist` folder.<br>
-This correctly bundles your ROAR app in production mode and optimizes the build for the best performance.
+    Builds the app for production to the `dist` folder.<br>
+    This correctly bundles your ROAR app in production mode and optimizes the build for the best performance.
 
-Your app is then ready [to be deployed](deploying-your-experiment.md).
+    Your app is then ready [to be deployed](deploying-your-experiment.md).
+
+There are other commands as well. The difference between `npm run build:dev` and `npm run build:prod`, for example, is explained in the [Configuration section](configuration.md).
 
 ## Make your first commit
 
@@ -122,4 +138,4 @@ Before we start configuring your app, let's commit the files that the `create-ro
     git commit -m "First commit. Add files created by the create-roar-app initializer"
     ```
 
-Now that you've committed the initial files, we are ready to configure your experiment.
+Now that you've committed the initial files, let's [explore the folder](folder-structure.md) we've created and start writing your experiment.

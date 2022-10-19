@@ -1,131 +1,238 @@
-# Configuring your ROAR app
+# Configuration (under the hood)
 
-Help your ROAR app communicate with the Firestore database and the dashboard.
+Communicate with the Firestore database and the participant dashboard.
 
 ---
 
-## Search for `TODO` items
+ROAR apps work in concert with the [participant dashboard](https://reading.stanford.edu/) and the Firestore database to collect participant information and store trial data, respectively.
 
-The app template that you used has some placeholder `TODO` items in different JavaScript files. You can find all of the placeholder by using `git grep` in the root level of your repository.
-
-=== "screencast"
-
-    <script id="asciicast-r5a3WI4BLRNbkhWyrIfr9jdfx" src="https://asciinema.org/a/r5a3WI4BLRNbkhWyrIfr9jdfx.js" async></script>
-
-=== "code only"
-
-    ```sh
-    git grep "TODO"
-    ```
-
-We will complete these `TODO` items in the sections below.
+The details of these interactions have been deliberately abstracted away from you and put "under the hood" in `src/config.js`. In this section, we will explain what you need to do to make your ROAR apps communicate with the dashboard and the database. We will also **optionally** dive deeper into `src/config.js` to gain an understanding of how this works.
 
 ## Communicate with the dashboard
 
 <!-- markdownlint-disable MD034 -->
-ROAR apps communicate with the participant dashboard by passing parameters through the [URL's query string](https://en.wikipedia.org/wiki/Query_string). Suppose that your app is hosted at the website https://my-roar-app.web.app. The dashboard can be made to append a "pipeline" parameter. For example, https://my-roar-app.web.app?pipeline=rc for the REDCap pipeline. Similarly, at the end of the assessment the ROAR app communicates with the dashboard using URL parameters for a game token, "g", and a completion status, "c". For example, https://reading.stanford.edu/?g=1234&c=1 would communicate to the dashboard that the participant has completed the game with game token 1234.
+The participant dashboard provides a unified login experience and helps participants monitor their progress on multiple ROAR assessments.
+The dashboard keeps track of ROAR apps by assigned each one a unique number called a "game token".
+ROAR apps and the dashboard communicate with each other by passing parameters through the [URL's query string](https://en.wikipedia.org/wiki/Query_string).
+Suppose that your app is hosted at the website https://my-roar-app.web.app. The dashboard can be made to append a "gameToken" parameter. For example, https://my-roar-app.web.app?gameToken=1234 for the assessment associated with the game token "1234".
 
-There are lines of JavaScript code in `config.js` that inspect the "pipeline" parameter of the URL query string and construct the appropriate redirect URL to communicate back with the dashboard. In the screencast below, we edit the `src/config.js` file, first searching for the `TODO` items and then inserting the configuration information.
+You might be asking, "what does my ROAR app do with this information?"
+Well, when your assessment is done, it usually redirects the participant back to the dashboard. It has to let the dashboard know somehow that the participant has completed the game. ROAR apps solve this problem using the same query string technology, passing URL parameters for a game token, "g", and a completion status, "c". For example, redirecting the user to https://reading.stanford.edu/?g=1234&c=1 would communicate to the dashboard that the participant has completed the game with game token 1234. If no game token URL parameter is given to a ROAR app, it's default behavior is to refresh the page after the assessment is done.
 
-??? info "Expand this for a note about our choice of text editor"
+!!! note "What you need to do"
 
-    We're using the [micro text editor](https://micro-editor.github.io/) in the screencast below because it's a terminal-based text editor that plays nicely with the screencasting software that we use in this guide. You should use whatever text editor you are already comfortable with. If you don't already have a favorite text editor, we recommend [:material-microsoft-visual-studio-code: VS Code](https://code.visualstudio.com/). 
+    When you register your ROAR app in the participant dashboard, you **must** append a "gameToken" URL parameter. The value of this parameter must match the game token that the dashboard uses for your assessment.
 
-=== "screencast"
+??? example "Implementation details"
 
-    <script id="asciicast-y3fCmQudKTZ1GZi1arov494GX" src="https://asciinema.org/a/y3fCmQudKTZ1GZi1arov494GX.js" async></script>
+    There are lines of JavaScript code in `config.js` that inspect the "gameToken" parameter of the URL query string and construct the appropriate redirect URL to communicate back with the dashboard. You **DO NOT** need to edit this code.
 
-=== "code only"
+    ``` js title="src/config.js" linenums="80"
+    const queryString = new URL(window.location).search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameToken = urlParams.get('gameToken') || null;
 
-    Edit the `redirect` function in `src/config.js` so that it reads:
-
-    ```js
-    // ROAR apps communicate with the participant dashboard by passing parameters
-    // through the URL. The dashboard can be made to append a "pipeline" parameter
-    // e.g., https://my-roar-app.web.app?pipeline=rc for the REDCap pipeline.
-    // Similarly, at the end of the assessment the ROAR app communicates with the
-    // dashboard using URL parameters for a game token, "g", and a completion
-    // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1.  Here we inspect
-    // the "pipeline" parameter that was passed through the URL query string and
-    // construct the appropriate redirect URL.
     const redirect = () => {
-        if (pipeline === 'rc') {
-            window.location.href = 'https://reading.stanford.edu/?g=1234&c=1';
-        } else if (pipeline === 'school') {
-            window.location.href = 'https://reading.stanford.edu/?g=5678&c=1';
-        } else if (pipeline === 'multitudes') {
-            // Here, we refresh the page rather than redirecting back to the dashboard
-            window.location.reload();
-        }
-        // You can add additional pipeline-dependent redirect URLs here using
-        // additional `else if` clauses.
+      if (gameToken === null) {
+        // If no game token was passed, we refresh the page rather than
+        // redirecting back to the dashboard
+        window.location.reload();
+      } else {
+        // Else, redirect back to the dashboard with the game token that
+        // was originally provided
+        window.location.href = `https://reading.stanford.edu/?g=${gameToken}&c=1`;
+      }
     };
     ```
 
-    Then we're committing our changes using git:
+## Keep track of changes to your task
 
-    ```sh
-    git add -u
-    git commit -m "Configure dashboard redirect based on pipeline URL parameter."
-    ```
+During the [installation phase](installation.md), you entered some details about your task. We stored this metadata inside of `src/config.js` and it will be written to the Firestore database whenever a participant takes your assessment.
 
-## Describe your experiment's structure
+This helps you keep track of which task your participant is taking. Furthermore, your ROAR app also keeps track of variations in your task by assigning a new variant every time you change your source code.
 
-During the [installation phase](installation.md), you entered some details about your assessment.
-Your app presents participants with images and asks them to classify those images as either hot dogs or "not hot dogs." For the rest of this guide, we will pretend
-that you want to add a block to the experiment wherein participants classify images as cats or dogs.
-Before we write the experiment, let's edit your app's metadata so that it is recorded properly in the Firestore database. This information lives in `src/config.js`.
+!!! note "What you need to do"
 
-=== "screencast"
+    Nothing!
 
-    <script id="asciicast-00AlqLucI97IheypsJlW7WOXC" src="https://asciinema.org/a/00AlqLucI97IheypsJlW7WOXC.js" async></script>
+??? example "Implementation details"
 
-=== "code only"
+    There are lines of JavaScript code in `config.js` that insert your task metadata into an object that is later passed to the Firestore database.
 
-    We get it. You're not the screencast type. But we're editing a file in this example and it's difficult to show that using only shell commands.
-    
-    But just for reference, we're editing the `taskInfo` object in `src/config.js` to read:
-
-    ```js
-    const taskInfo = {
+    ``` js title="src/config.js" linenums="11"
+    function configTaskInfo() {
+      const taskInfo = {
         taskId: 'my-roar-app',
         taskName: 'My Roar App',
         variantName: 'default',
-        taskDescription: 'A two-block, two-alternative forced choice experiment differentiating between hot dogs vs. not-hot dogs and then dogs vs. cats.',
+        taskDescription: 'An example ROAR app using the two-alternative forced choice template',
         variantDescription: 'default',
-        blocks: [
+        // eslint-disable-next-line no-undef
+        srcHash: SRC_HASH,
+      };
+
+      return taskInfo;
+    }
+    ```
+
+    That `SRC_HASH` variable on line 19 contains a hash of your entire `src` directory. It is calculated in the `webpack.config.js` file and then inserted into your JavaScript files as a global variable every time you use `npm run build` or `npm start`.
+
+    ``` js title="webpack.config.js" linenums="109" hl_lines="2-6 30"
+    module.exports = async (env, args) => {
+      const hashOptions = {
+        folders: { exclude: ['.*', 'node_modules', 'test_coverage'] },
+        files: { include: ['*.js', '*.json'] },
+      };
+      const srcHash = await hashElement('./src', hashOptions);
+
+      const roarDbDoc = env.dbmode === 'production' ? 'production' : 'development';
+
+      let merged;
+      switch (args.mode) {
+        case 'development':
+          merged = merge(commonConfig, developmentConfig);
+          break;
+        case 'production':
+          merged = merge(commonConfig, productionConfig);
+          break;
+        default:
+          throw new Error('No matching configuration was found!');
+      }
+
+      return merge(
+        merged,
         {
-            blockNumber: 0,
-            trialMethod: 'random', // could be "random", "adaptive", "fixed", etc.
-            corpus: 'hot-dog-vs-not-hot-dog', // should be the name or URL of some corpus
+          plugins: [
+            new HtmlWebpackPlugin({ title: 'My Roar App' }),
+            new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+            new webpack.DefinePlugin({
+              ROAR_DB_DOC: JSON.stringify(roarDbDoc),
+              SRC_HASH: JSON.stringify(srcHash),
+            }),
+          ],
         },
-        {
-            blockNumber: 1,
-            trialMethod: 'random', // could be "random", "adaptive", "fixed", etc.
-            corpus: 'dog-vs-cat', // should be the name or URL of some corpus
-        },
-        ],
+      );
     };
     ```
 
-    And then committing your changes:
-    ```sh
-    git add -u
-    git commit -m "Edit experiment metadata in src/config.js"
+## Connect to the Firestore database
+
+ROAR apps store each trial's data in a [Firestore database][firestoredatabase]. In order to communicate with Firebase, your app needs to know certain metadata about your Firebase project. If you are developing an app for the [Brain Development and Education Lab (BDELab)][bdelab], then you don't have to do anything because the correct metadata has already been filled in. If you're developing for another organization, you'll have to supply your [Firebase project configuration][firebaseprojectconfig] in the `src/firebaseConfig.js` file.
+
+The BDELab's Firestore database has separate collections for development and production data. So while you are developing your app, any trial data that you produce is kept separate from the experimental data of our in-production apps. Once you are ready to deploy your experiment in production, you're data will be stored in the production part of the database. By default, the development data will be stored in "[:material-home: :fontawesome-solid-chevron-right: dev :fontawesome-solid-chevron-right: my-roar-app](https://console.firebase.google.com/project/gse-yeatmanlab/firestore/data/~2Fdev~2Fmy-roar-app)", where the last element of that path will depend on the name that you gave to your ROAR app during installation. When deployed, your assessment data will be stored in "[:material-home: :fontawesome-solid-chevron-right: prod :fontawesome-solid-chevron-right: roar-prod](https://console.firebase.google.com/project/gse-yeatmanlab/firestore/data/~2Fprod~2Froar-prod)."
+
+!!! note "What you need to do"
+
+    If you are storing your data in your own Firestore database, supply your [Firebase project configuration][firebaseprojectconfig] in the `src/firebaseConfig.js` file. If you are developing for the BDELab, this step isn't necessary.
+
+    To switch between the production and development portions of the database, use the `:prod` and `:dev` versions of the `npm run` commands. For example, `npm run build:dev` will build your app in the `dist` folder and configure it to store data in the development portion of the database. Conversely, `npm run build:prod` will configure it to write to the production portion of the database. There are similar sub-commands for `npm run start`.
+
+    Lastly, if you type `npm start` or `npm run build` on their own without specifying `:prod` or `:dev`, the default behavior is to write to the development portion of the database.
+
+??? example "Implementation details"
+
+    The "scripts" portion of `package.json` contains the specialized `:prod` and `:dev` commands. Using `:prod` tells webpack to set the `dbmode` environment variable to "production", while using `:dev` sets that variable to "development."
+
+    ``` js title="package.json" linenums="7" hl_lines="4 5 7 8"
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npx webpack --mode production",
+        "build:dev": "npm run build -- --env dbmode=development",
+        "build:prod": "npm run build -- --env dbmode=production",
+        "start": "npx webpack serve --open --mode development",
+        "start:dev": "npm run start -- --env dbmode=development",
+        "start:prod": "npm run start -- --env dbmode=production"
+      },
     ```
 
-## Communicate with the Firestore database
+    ``` js title="webpack.config.js" linenums="109" hl_lines="8 29"
+    module.exports = async (env, args) => {
+      const hashOptions = {
+        folders: { exclude: ['.*', 'node_modules', 'test_coverage'] },
+        files: { include: ['*.js', '*.json'] },
+      };
+      const srcHash = await hashElement('./src', hashOptions);
 
-ROAR apps store each trial's data in a [Firestore database](https://firebase.google.com/docs/firestore). In order to communicate with Firebase, your app needs to know certain metadata about your Firebase project. If you are developing an app for the [Brain Development and Education Lab (BDELab)](https://www.brainandeducation.com/), then you don't have to do anything because the correct metadata has already been filled in. If you're developing for another organization, you'll have to supply your [Firebase project configuration](https://firebase.google.com/docs/web/learn-more#config-object) in the `src/firebaseConfig.js` file.
+      const roarDbDoc = env.dbmode === 'production' ? 'production' : 'development';
 
-The BDELab's Firestore database has separate collections for development and production data. So while you are developing your app, any trial data that you produce is kept separate from the experimental data of our in-production apps. Once you are ready to deploy your experiment in production, you simply need to change the `rootDoc` property of the `roarConfig` object in the `src/firebaseConfig.js` file. See below for a screencast of this process. But be sure to change it back to the development line while you are still writing your web assessment.
+      let merged;
+      switch (args.mode) {
+        case 'development':
+          merged = merge(commonConfig, developmentConfig);
+          break;
+        case 'production':
+          merged = merge(commonConfig, productionConfig);
+          break;
+        default:
+          throw new Error('No matching configuration was found!');
+      }
 
-=== "screencast"
+      return merge(
+        merged,
+        {
+          plugins: [
+            new HtmlWebpackPlugin({ title: 'My Roar App' }),
+            new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+            new webpack.DefinePlugin({
+              ROAR_DB_DOC: JSON.stringify(roarDbDoc),
+              SRC_HASH: JSON.stringify(srcHash),
+            }),
+          ],
+        },
+      );
+    };
+    ```
 
-    <script id="asciicast-uzlc0M4lg4Qjp8GFm8YyiD8tq" src="https://asciinema.org/a/uzlc0M4lg4Qjp8GFm8YyiD8tq.js" async></script>
+    The `ROAR_DB_DOC` global variable is then used inside of `src/firebaseConfig.js` to set the root document in Firestore.
 
-=== "code only"
+    ``` js title="src/firebaseConfig.js" linenums="3" hl_lines="4"
+    // eslint-disable-next-line no-undef
+    const prodDoc = 'your-org-name' === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', 'your-org-name'];
+    // eslint-disable-next-line no-undef
+    const rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', 'my-roar-app'];
+    ```
 
-    We get it. You're not the screencast type. But we're editing a file in this example and it's difficult to show that using only shell commands.
-    
-    But just for reference, when you are ready to deploy your ROAR app in production, uncomment line 14 of `src/firebaseConfig.js` and comment out line 15 of the same file. Don't do this until you are ready to release your experiment "into the wild."
+## Write trial data
+
+Now that the ROAR app is connected to the Firestore database, you're going to want to write some trial data to it. To do so, you **MUST** append a single `#!js save_trial: true` field to the data collected by a jsPsych trial.
+
+!!! note "What you need to do"
+
+    You **MUST** add specific data to any trial you want to save to the Firestore database. [Here are instructions](https://www.jspsych.org/7.0/overview/data/#adding-data-to-a-particular-trial-or-set-of-trials) on how to add additional data to any jsPsych trial. In our case, we are required to add `#!js save_trial: true` to the trial data. For example,
+
+    ```js hl_lines="5-8"
+    const trialSavedToFirestore{
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: "Press y to save this trial to firestore"
+      choices: ['y'],
+      // Here is where we specify that we should save the trial to Firestore
+      data: {
+        save_trial: true,
+      },
+    },
+    ```
+
+    In the template that we are using in this developer's guide, you can see that this is already done in `src/index.js` on lines 56-61.
+
+??? example "Implementation details"
+
+    In `src/config.js`, we added [an event-related callback function](https://www.jspsych.org/7.0/overview/events/) to every single jsPsych trial. It gets called after the data gets updated and checks to see if the `save_trial` field is `true`. If so, it combines the trial data with some predefined timing and user data and writes it to the Firestore database using the [roar-firekit](https://richiehalford.org/roar-firekit/) library.
+
+    ``` js title="src/config.js" linenums="125"
+    jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
+      if (data.save_trial) {
+        config.firekit?.writeTrial({
+          timingData,
+          userInfo: config.firekit?.userInfo,
+          ...data,
+        });
+      }
+    });
+    ```
+
+[firestoredatabase]: https://firebase.google.com/docs/firestore
+[bdelab]: https://www.brainandeducation.com/
+[firebaseprojectconfig]: https://firebase.google.com/docs/web/learn-more#config-object
+*[task]: another name for a ROAR assessment (e.g., ROAR-SWR, ROAR-MEP, etc.)
+*[variant]: a specific variation of a task (e.g., adaptive vs. random)
+*[trial]: a single stimulus/response pair

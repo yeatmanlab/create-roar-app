@@ -26,7 +26,7 @@ However, you're experiment will automatically update when you make changes to yo
 
 ## Adding another block of stimuli
 
-In [Configuration](configuration.md), we described a two-block structure for our new experiment. Let's implement that structure now by first adding images of cats and dogs and then editing the experiment's source code to include those new images.
+Let's pretend that we want to add a new block to our experiment where we ask the participant to further differentiate between cats and dogs. Let's implement that structure now by first adding images of cats and dogs and then editing the experiment's source code to include those new images.
 
 ### Adding more images
 

@@ -127,19 +127,14 @@ module.exports = async (env, args) => {
       throw new Error('No matching configuration was found!');
   }
 
-  return merge(
-    merged,
-    {
-      plugins: [
-        new HtmlWebpackPlugin({
-		  title: '{{capital name space=true}}',
-        }),
-        new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
-        new webpack.DefinePlugin({
-          ROAR_DB_DOC: JSON.stringify(roarDbDoc),
-          SRC_HASH: JSON.stringify(srcHash),
-        }),
-      ],
-    },
-  );
+  return merge(merged, {
+    plugins: [
+      new HtmlWebpackPlugin({ title: '{{capital name space=true}}' }),
+      new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+      new webpack.DefinePlugin({
+        ROAR_DB_DOC: JSON.stringify(roarDbDoc),
+        SRC_HASH: JSON.stringify(srcHash),
+      }),
+    ],
+  });
 };

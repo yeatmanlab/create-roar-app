@@ -30,59 +30,56 @@ theme:
     repo: fontawesome/brands/github
 
 nav:
-  - About: index.md
-
-nav:
   - Home: index.md
-  - Getting Started: getting-started.md
-  - Developer Guide: 
-    - developer-guide/index.md
-    - Prerequisites: developer-guide/prerequisites.md
-    - Installation: developer-guide/installation.md
-    - Folder Structure: developer-guide/folder-structure.md
-    - Configuration: developer-guide/configuration.md
-    - Writing Your Experiment: developer-guide/writing-your-experiment.md
-    - Installing Additional Dependencies: developer-guide/installing-dependencies.md
-    - Styling: developer-guide/styling.md
-    - Deploying Your Experiment: developer-guide/deploying-your-experiment.md
-    - Retrieving Data: developer-guide/retrieving-data.md
+  - Developer Guide:
+      - developer-guide/index.md
+      - Prerequisites: developer-guide/prerequisites.md
+      - Installation: developer-guide/installation.md
+      - Folder Structure: developer-guide/folder-structure.md
+      - Configuration: developer-guide/configuration.md
+      - Writing Your Experiment: developer-guide/writing-your-experiment.md
+      - Installing Additional Dependencies: developer-guide/installing-dependencies.md
+      - Styling: developer-guide/styling.md
+      - Deploying Your Experiment: developer-guide/deploying-your-experiment.md
+      - Retrieving Data: developer-guide/retrieving-data.md
   - Common Issues:
-    - Advice For Asset Files: common-issues/asset-files.md
-    - Mobile Friendly Audio Stimuli: common-issues/audio-stimuli.md
+      - Advice For Asset Files: common-issues/asset-files.md
+      - Mobile Friendly Audio Stimuli: common-issues/audio-stimuli.md
   - About:
-    - Contributing: about/contributing.md
-    - License: about/license.md
+      - Glossary: about/glossary.md
+      - Contributing: about/contributing.md
+      - License: about/license.md
 
 extra_css:
   - css/extra.css
 
 markdown_extensions:
-    - toc:
-        permalink: True
-    - abbr
-    - admonition
-    - attr_list
-    - def_list
-    - footnotes
-    - md_in_html
-    - pymdownx.critic
-    - pymdownx.caret
-    - pymdownx.keys
-    - pymdownx.mark
-    - pymdownx.tilde
-    - pymdownx.details
-    - pymdownx.emoji:
-        emoji_index: !!python/name:materialx.emoji.twemoji
-        emoji_generator: !!python/name:materialx.emoji.to_svg
-    - pymdownx.highlight:
-        anchor_linenums: true
-    - pymdownx.inlinehilite
-    - pymdownx.snippets
-    - pymdownx.superfences
-    - pymdownx.tabbed:
-        alternate_style: true
-    - pymdownx.tasklist:
-        custom_checkbox: true
+  - toc:
+      permalink: True
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 plugins:
   - search

@@ -16,14 +16,14 @@ my-roar-app
 ├── node_modules
 ├── package-lock.json
 ├── package.json
-└── src/
-    └── css/
-        └── roar.css
-    ├── config.js
-    ├── firebaseConfig.js
-    ├── index.js
-    ├── loadAssets.js
-    └── logger.js
+├── src/
+│   ├── css/
+│   │   └── roar.css
+│   ├── config.js
+│   ├── firebaseConfig.js
+│   ├── index.js
+│   ├── loadAssets.js
+│   └── logger.js
 └── webpack.config.js
 ```
 
@@ -39,10 +39,6 @@ Folder contents may vary depending on which template you used. Here is a descrip
 
     This file loads media, such as images, videos, and audio, that is needed for your stimuli. See [Writing Your Experiment](writing-your-experiment.md) for further details.
 
-- `src/config.js`:
-
-    This file contains experiment configuration details and code that helps your experiment communicate with the participant dashboard and the Firestore database. See [Configuration](configuration.md) for more details.
-
 ## :pencil2: Files you **probably should edit**
 
 - `README.md`:
@@ -51,13 +47,17 @@ Folder contents may vary depending on which template you used. Here is a descrip
 
 ## :material-file-question: Files you **may edit** but probably won't need to
 
-- `src/logger.js`:
+- `src/config.js`:
 
-    The JavaScript code in this file implements a logger to write debugging information to the console.
+    This file contains experiment configuration details and code that helps your experiment communicate with the participant dashboard and the Firestore database. See [Configuration](configuration.md) for more details.
 
 - `src/firebaseConfig.js`:
 
     This file contains additional configuration information to help your app communicate with the Firestore database. See [Configuration](configuration.md) for more details.
+
+- `src/logger.js`:
+
+    The JavaScript code in this file implements a logger to write debugging information to the console.
 
 - `src/css/roar.css`:
 

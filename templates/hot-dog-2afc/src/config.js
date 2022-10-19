@@ -9,8 +9,6 @@ import { RoarFirekit } from '@bdelab/roar-firekit';
 import { roarConfig } from './firebaseConfig';
 
 function configTaskInfo() {
-  // TODO: Edit taskInfo here. The information will be used to populate the task
-  // metadata in the Firestore database.
   const taskInfo = {
     taskId: '{{kebab name}}',
     taskName: '{{capital name space=true}}',
