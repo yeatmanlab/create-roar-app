@@ -15,10 +15,6 @@ Before we start, be sure to commit your work so far into version control.
 
 First, use either npm or yarn to install the new plugin
 
-=== "screencast"
-
-    <script id="asciicast-cSa4Vo1mzqXW1iBKcfIJAHoZD" src="https://asciinema.org/a/cSa4Vo1mzqXW1iBKcfIJAHoZD.js" async></script>
-
 === "code only"
 
     Use either npm or yarn to install the new package
@@ -37,41 +33,50 @@ First, use either npm or yarn to install the new plugin
 
     You can then verify that `@jspsych/plugin-image-keyboard-response` has added to the dependencies section of the `package.json` file.
 
+=== "screencast"
+
+    <script id="asciicast-cSa4Vo1mzqXW1iBKcfIJAHoZD" src="https://asciinema.org/a/cSa4Vo1mzqXW1iBKcfIJAHoZD.js" async></script>
+
 ## Importing and using the new library
 
 Now we are ready to start using the new plugin.
-
-=== "screencast"
-
-    <script id="asciicast-yWci9Z9Axm360r6qOkt3oDNCv" src="https://asciinema.org/a/yWci9Z9Axm360r6qOkt3oDNCv.js" async></script>
 
 === "code only"
 
     First, remove the HTML image tag from the `allTargets` and `block2Targets` arrays in `src/loadAssets.js`:
 
-    ```js
+    ```js title="src/loadAssets.js" linenums="25" hl_lines="3 15"
+    const allFiles = hotDogFiles.concat(notHotDogFiles);
     export const allTargets = allFiles.map((url) => ({
       target: url,
       isHotDog: !url.includes('nothotdog'),
     }));
-    ```
 
-    and
+    /* preload images */
+    export const preloadImages = {
+      type: jsPsychPreload,
+      images: allFiles,
+    };
 
-    ```js
+    const block2Files = catImages.concat(dogFiles);
     export const block2Targets = block2Files.map((url) => ({
       target: url,
       isDog: url.includes('dog'),
     }));
     ```
 
-    Next, change the plugin type in `src/index.js`:
+    Next, change import the new plugin type in `src/index.js`:
 
-    ```js
+    ```js title="src/index.js" linenums="1" hl_lines="4"
+    // jsPsych imports
+    import jsPsychFullScreen from '@jspsych/plugin-fullscreen';
+    import jsPsychHtmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
     import jsPsychImageKeyboardResponse from '@jspsych/plugin-image-keyboard-response';
+    ```
 
-    // Skipping a lot of code here
+    Later on, use this new plugin type in the `hotDogTrials` objects.
 
+    ```js title="src/index.js" linenums="40" hl_lines="10 11 19-22"
     const hotDogTrials = {
       timeline: [
         {
@@ -95,13 +100,10 @@ Now we are ready to start using the new plugin.
           stimulus_height: 250,
           stimulus_width: 250,
           data: {
-            // Here is where we specify that this trial is a test response trial
-            task: 'test_response',
+            // Here is where we specify that we should save the trial to Firestore
+            save_trial: true,
             // Here we can also specify additional information that we would like stored
-            // in this trial in ROAR's Firestore database. For example,
-            start_time: config.startTime.toLocaleString('PST'),
-            start_time_unix: config.startTime.getTime(),
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            // in this trial in ROAR's Firestore database.
           },
         },
       ],
@@ -111,6 +113,48 @@ Now we are ready to start using the new plugin.
         size: 10,
       },
     };
-
-    // And likewise for the other stimuli.
     ```
+    
+    And likewise for the `catDogTrials` object:
+
+    ```js title="src/index.js" linenums="94" hl_lines="10 18-19"
+    const catDogTrials = {
+      timeline: [
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: '<div style="font-size:60px;">+</div>',
+          choices: 'NO_KEYS',
+          trial_duration: 500,
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable('target'),
+          choices: ['ArrowLeft', 'ArrowRight'],
+          prompt: `
+            <p>Is this a dog?</p>
+            <p>If yes, press the right arrow key.</p>
+            <p>If no, press the left arrow key.</p>
+          `,
+          stimulus_height: 250,
+          stimulus_width: 250,
+          data: {
+            // Here is where we specify that we should save the trial to Firestore
+            save_trial: true,
+            // Here we can also specify additional information that we would like stored
+            // in this trial in ROAR's Firestore database.
+          },
+        },
+      ],
+      timeline_variables: block2Targets,
+      sample: {
+        type: 'without-replacement',
+        size: 10,
+      },
+    };
+    ```
+
+=== "screencast"
+
+    <script id="asciicast-yWci9Z9Axm360r6qOkt3oDNCv" src="https://asciinema.org/a/yWci9Z9Axm360r6qOkt3oDNCv.js" async></script>
+
+Congratulations! You just used your first new plugin type!
