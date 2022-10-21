@@ -1,7 +1,8 @@
 import { log } from './logger';
 
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line no-self-compare
 const prodDoc = '{{ orgName }}' === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', '{{ orgName }}'];
+// eslint-disable-next-line no-undef
 const rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', '{{kebab name}}'];
 
 /* eslint-disable import/prefer-default-export */
@@ -18,6 +19,7 @@ export const roarConfig = {
   rootDoc: rootDoc,
 };
 
+// eslint-disable-next-line operator-linebreak
 const logMessage =
   `This ROAR app will write data to the ${roarConfig.firebaseConfig.projectId} ` +
   `Firestore database under the document ${rootDoc.join(' > ')}.`;
