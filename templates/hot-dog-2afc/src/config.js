@@ -69,27 +69,27 @@ export const initConfig = async () => {
 
 export const initRoarJsPsych = (config) => {
   // ROAR apps communicate with the participant dashboard by passing parameters
-  // through the URL. The dashboard can be made to append a "gameToken"
-  // parameter, e.g., https://{{kebab name}}.web.app?gameToken=1234.
+  // through the URL. The dashboard can be made to append a "gameId"
+  // parameter, e.g., https://{{kebab name}}.web.app?gameId=1234.
   // Similarly, at the end of the assessment the ROAR app communicates with the
   // dashboard to let it know that the participant has finished the assessment.
   // The dashboard expects a game token, "g", and a completion
   // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1. Here we inspect
-  // the "gameToken" parameter that was passed through the URL query string and
+  // the "gameId" parameter that was passed through the URL query string and
   // construct the appropriate redirect URL.
   const queryString = new URL(window.location).search;
   const urlParams = new URLSearchParams(queryString);
-  const gameToken = urlParams.get('gameToken') || null;
+  const gameId = urlParams.get('gameId') || null;
 
   const redirect = () => {
-    if (gameToken === null) {
+    if (gameId === null) {
       // If no game token was passed, we refresh the page rather than
       // redirecting back to the dashboard
       window.location.reload();
     } else {
       // Else, redirect back to the dashboard with the game token that
       // was originally provided
-      window.location.href = `https://reading.stanford.edu/?g=${gameToken}&c=1`;
+      window.location.href = `https://reading.stanford.edu/?g=${gameId}&c=1`;
     }
   };
 
@@ -117,8 +117,9 @@ export const initRoarJsPsych = (config) => {
   });
 
   const timingData = {
-    start_time: config.startTime.toISOString(),
+    start_time_utc0: config.startTime.toISOString(),
     start_time_unix: config.startTime.getTime(),
+    start_time_local: config.startTime.toLocaleString(),
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
 
