@@ -3,15 +3,16 @@
   "description": "{{description}}",
   "version": "1.0.0",
   "author": "{{contact}}",
+  "main": "index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx webpack --mode production",
-    "build:dev": "npm run build --silent -- --env dbmode=development",
-    "build:prod": "npm run build --silent -- --env dbmode=production",
-    "start": "npx webpack serve --open --mode development",
-    "start:dev": "npm run start --silent -- --env dbmode=development",
-    "start:prod": "npm run start --silent -- --env dbmode=production"
+    "bundle": "npx webpack --mode production",
+    "bundle:dev": "npm run build --silent -- --env dbmode=development",
+    "bundle:prod": "npm run build --silent -- --env dbmode=production",
+    "serve": "npx webpack serve --open --mode development",
+    "serve:dev": "npm run start --silent -- --env dbmode=development",
+    "serve:prod": "npm run start --silent -- --env dbmode=production"
   },
   "repository": {
     "type": "git",

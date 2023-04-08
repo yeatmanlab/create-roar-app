@@ -9,11 +9,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const commonConfig = {
   entry: {
-    index: path.resolve(__dirname, 'src', 'index.js'),
+    index: path.resolve(__dirname, 'src', 'serve.js'),
   },
   output: {
     filename: '[name].[contenthash].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     clean: {
       keep: /\.git/,
     },
@@ -102,7 +102,7 @@ const developmentConfig = {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    static: './dist',
+    static: './build',
   },
 };
 
