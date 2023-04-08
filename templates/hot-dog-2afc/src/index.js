@@ -9,16 +9,26 @@ import 'regenerator-runtime/runtime';
 import './css/roar.css';
 
 // Local modules
-import { initConfig, initRoarJsPsych, initRoarTimeline } from './config';
+// TODO Shoaib, these should be moved to roar-utils and imported from there.
+import { initRoarJsPsych, initRoarTimeline } from './config';
 
 import { allTargets, preloadImages } from './loadAssets';
 
-// ---------Initialize the jsPsych object and the timeline---------
-const config = await initConfig();
-const jsPsych = initRoarJsPsych(config);
-const timeline = initRoarTimeline(config);
+// TODO: Put this class in roar-utils, import it and then extend it using the input name from create-roar-app
+class RoarApp {
+  constructor(roarAppFirekit) {
+    this.firekit = roarAppFirekit;
+    this.timeline = initRoarTimeline(this.roarAppFirekit);
+    this.jsPsych = initRoarJsPsych(this.roarAppFirekit);
+  }
+
+  run() {
+    this.jsPsych.run(this.timeline);
+  }
+}
 
 // ---------Preload Media Here---------
+const timeline = [];
 timeline.push(preloadImages);
 
 // ---------Create trials---------
@@ -78,4 +88,10 @@ const exit_fullscreen = {
 
 timeline.push(exit_fullscreen);
 
-jsPsych.run(timeline);
+// TODO: Figure out how to disable prettier complaints about this template string
+export class {{capital name}} extends RoarApp {
+  constructor(roarAppFirekit) {
+    super(roarAppFirekit);
+    this._timeline.push(timeline);
+  }
+}
